@@ -1,5 +1,8 @@
 # M2 Projet Développement Mobile - TheDrunkWay
 
+## Git pour l'alphabet list (s'en inspirer):
+url : https://github.com/ayushnawani/react-native-alphabetflatlist
+
 À remettre : mardi 16 janvier 2024, 23:50
 
 ## Réalisation d'une application mobile de préparation de cocktail

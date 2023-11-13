@@ -8,5 +8,5 @@
 - pouvoir trier par type d'alcool, type de préparation ... (gestion par tag ?)
 - faire la partie partage sur Facebook, par SMS ...
 
-
-
+- regarder POSTMAN pour tester des APIs REST sur internet
+- regarder OPEN API
