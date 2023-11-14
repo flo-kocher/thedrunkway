@@ -11,8 +11,7 @@ const styles = StyleSheet.create({
     },
     cocktail: {
         borderRadius: 1,
-        width: '100%',
-        height: '100%',
+        // height: '50%',
     },
     container: {
         borderColor: 'black', 
@@ -20,8 +19,8 @@ const styles = StyleSheet.create({
         borderRadius: 3, 
         backgroundColor: '#C0C0C0',
         margin: 10,
-        width:'49vh',
-        height: '20vh',
+        // width:'50vw',
+        // height: '100vh',
     },
 });
 
