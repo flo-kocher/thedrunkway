@@ -5,6 +5,16 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import SearchScreen from './screens/Search';
+
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 0 // 5000
+		}
+	}
+});
 
 const img_example = {
     uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -15,7 +25,7 @@ const img_example = {
 function HomeScreen() {
   return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
+        <Text>Home</Text>
       </View>
   );
 }
@@ -109,14 +119,6 @@ function HomeScreenStacked() {
     // </NavigationContainer>
 }
 
-function SearchScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Search!</Text>
-        </View>
-    );
-}
-
 function FavoritesScreen() {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -138,48 +140,50 @@ const HomeStack = createNativeStackNavigator();
 
 export default function App() {
     return (
-        <NavigationContainer>
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color, size }) => {
-                        let iconName, ionicons = true;
+        <QueryClientProvider client={queryClient}>
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName, ionicons = true;
 
-                        if (route.name === 'Home') {
-                            iconName = focused
-                                ? 'ios-information-circle'
-                                : 'ios-information-circle-outline';
-                        } else if (route.name === 'Search') {
-                            iconName = focused
-                                ? 'search-circle'
-                                : 'search-circle-outline';
-                        } else if (route.name === 'Favorites') {
-                            ionicons = false;
-                            iconName = focused
-                                ? 'favorite'
-                                : 'favorite-outline';
-                        } else if (route.name === 'Settings') {
-                            iconName = focused
-                                ? 'settings'
-                                : 'settings-outline';
-                        }
+                            if (route.name === 'Home') {
+                                iconName = focused
+                                    ? 'ios-information-circle'
+                                    : 'ios-information-circle-outline';
+                            } else if (route.name === 'Search') {
+                                iconName = focused
+                                    ? 'search-circle'
+                                    : 'search-circle-outline';
+                            } else if (route.name === 'Favorites') {
+                                ionicons = false;
+                                iconName = focused
+                                    ? 'favorite'
+                                    : 'favorite-outline';
+                            } else if (route.name === 'Settings') {
+                                iconName = focused
+                                    ? 'settings'
+                                    : 'settings-outline';
+                            }
 
-                        // You can return any component that you like here!
-                        if (ionicons) {
-                            return <Ionicons name={iconName} size={size} color={color} />;
-                        } else {
-                            return <MaterialIcons name={iconName} size={size} color={color} />;
-                        }
-                    },
-                    tabBarActiveTintColor: 'tomato',
-                    tabBarInactiveTintColor: 'gray',
-                })}
-            >
-                <Tab.Screen name="Home" component={HomeScreenStacked} />
-                <Tab.Screen name="Search" component={SearchScreen} />
-                <Tab.Screen name="Favorites" component={FavoritesScreen} />
-                <Tab.Screen name="Settings" component={SettingsScreen} />
-            </Tab.Navigator>
-        </NavigationContainer>
+                            // You can return any component that you like here!
+                            if (ionicons) {
+                                return <Ionicons name={iconName} size={size} color={color} />;
+                            } else {
+                                return <MaterialIcons name={iconName} size={size} color={color} />;
+                            }
+                        },
+                        tabBarActiveTintColor: 'tomato',
+                        tabBarInactiveTintColor: 'gray',
+                    })}
+                >
+                    <Tab.Screen name="Home" component={HomeScreenStacked} />
+                    <Tab.Screen name="Search" component={SearchScreen} />
+                    <Tab.Screen name="Favorites" component={FavoritesScreen} />
+                    <Tab.Screen name="Settings" component={SettingsScreen} />
+                </Tab.Navigator>
+            </NavigationContainer>
+        </QueryClientProvider>
     );
 }
 
