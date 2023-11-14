@@ -10,3 +10,10 @@
 
 - regarder POSTMAN pour tester des APIs REST sur internet
 - regarder OPEN API
+
+
+## Exemple à voir
+- navigation avec retour en arrière avec utilisation des Stack.Screen : https://reactnavigation.org/docs/nesting-navigators
+
+## Florentin
+- faire l'affichage des boissons dans une ScrollView avec des Card
