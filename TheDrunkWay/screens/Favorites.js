@@ -7,51 +7,12 @@ import {
 import React, {useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import FavCocktailItem from "../components/FavCocktailItem"
+import FavoritesDisplay from "./FavoritesDisplay";
+import {clearStorage, getAllCocktails, getCocktail, storeCocktail} from "../utils/asyncStorageCalls";
 
 const value = {
     name: "Florentin Kocher",
     job: "Software Developer"
-};
-
-const storeUser = async (idDrinkStr) => {
-    let idDrink = Number(idDrinkStr);
-    if (isNaN(idDrink) || idDrink === 0) {
-        console.log("idDrink is NaN")
-        return
-    }
-    try {
-        await AsyncStorage.setItem(idDrink, JSON.stringify(idDrink));
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const getUser = async (idDrink) => {
-    try {
-        const savedUser = await AsyncStorage.getItem(idDrink);
-        const currentUser = JSON.parse(savedUser);
-        console.log(currentUser);
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const getAll = async () => {
-    try {
-        const savedData = await AsyncStorage.getAllKeys();
-        console.log(savedData);
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const removeData = async () => {
-    try {
-        const savedUser = await AsyncStorage.clear();
-    } catch (error) {
-        console.log(error);
-    }
 };
 
 function SetupFavorites({ navigation }) {
@@ -68,32 +29,11 @@ function SetupFavorites({ navigation }) {
                 />
             </View>
             <View style={styles.researchView}>
-                <Button title={'store'} onPress={() => storeUser(text)}/>
-                <Button title={'get'} onPress={() => getUser(text)}/>
-                <Button title={'remove'} onPress={() => removeData()}/>
-                <Button title={'get all'} onPress={() => getAll()}/>
+                <Button title={'store'} onPress={() => storeCocktail(text)}/>
+                <Button title={'get'} onPress={() => getCocktail(text)}/>
+                <Button title={'remove'} onPress={() => clearStorage()}/>
+                <Button title={'get all'} onPress={() => getAllCocktails()}/>
             </View>
-        </View>
-    );
-}
-
-function DisplayFavorites({navigation}) {
-    const favCocktails = [
-        {
-            id: 1,
-            name: "Alocol"
-        },
-        {
-            id: 2,
-            name: "AZE"
-        }
-    ]
-    console.log(favCocktails)
-
-    return (
-        <View style={styles.view}>
-            <Text>Favorites display</Text>
-            <FlatList data={favCocktails} renderItem={({item}) => <FavCocktailItem data={item}/>}/>
         </View>
     );
 }
@@ -114,7 +54,7 @@ const Search = ({navigation}) => {
                     })
                 }
             />
-            <FavoritesStack.Screen name="DisplayFavorites" component={DisplayFavorites} />
+            <FavoritesStack.Screen name="DisplayFavorites" component={FavoritesDisplay} />
         </FavoritesStack.Navigator>
     </>;
 };
