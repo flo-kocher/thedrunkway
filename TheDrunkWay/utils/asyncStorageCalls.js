@@ -12,13 +12,16 @@ const getAllKeys = async () => {
     return keys.filter(function(l) { return l !== 'EXPO_CONSTANTS_INSTALLATION_ID' });
 }
 
-export const storeCocktail = async (cocktailName) => {
+export const storeCocktail = async (cocktail) => {
+    /*
+        Dans le cocktailData on va tout mettre, juste renommer peut être
+        la key 'strDrink' en 'name'
+     */
     let cocktailData = {
-        'name': cocktailName
+        'name': cocktail.strDrink
     }
-    // [{'name': 'marga'}]
     try {
-        await AsyncStorage.setItem(cocktailName, JSON.stringify(cocktailData));
+        await AsyncStorage.setItem(cocktail.idDrink, JSON.stringify(cocktailData));
     } catch (error) {
         console.log(error);
     }
