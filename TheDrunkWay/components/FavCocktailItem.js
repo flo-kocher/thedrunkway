@@ -5,7 +5,7 @@ export default function FavCocktailItem(props) {
 
     return (
         <View>
-            <Text style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{item.name}</Text>
+            <Text style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{item.strDrink}</Text>
         </View>
     );
 }

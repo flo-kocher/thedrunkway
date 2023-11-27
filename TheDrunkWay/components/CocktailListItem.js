@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image, ImageBackground, ActivityIndicator, Text, Button} from 'react-native';
-import {storeCocktail} from "../utils/asyncStorageCalls";
+import {StyleSheet, View, Image, ImageBackground, ActivityIndicator, Text, Button, Switch} from 'react-native';
+import {addToFavorites, storeCocktail} from "../utils/asyncStorageCalls";
 
 const styles = StyleSheet.create({
     photo: {
@@ -34,7 +34,9 @@ export default function CocktailListItem({cocktail}) {
                 <ImageBackground source={{uri: cocktail.strDrinkThumb}} style={[styles.photo, {flex: 1}]}>
                     <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.strDrink}</Text>
                     <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.idDrink}</Text>
+                    <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.isFavorite.toString()}</Text>
                     <Button title="Add to favorites" onPress={() => storeCocktail(cocktail)}></Button>
+                    <Button title="Update Fav Value" onPress={() => addToFavorites(cocktail.idDrink)}></Button>
                 </ImageBackground>
             </View>
         </View>

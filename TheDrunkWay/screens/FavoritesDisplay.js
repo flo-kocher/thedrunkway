@@ -1,28 +1,33 @@
 import React, { useState, useEffect } from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Button, FlatList} from 'react-native';
-import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import {StyleSheet, View, Text, FlatList} from 'react-native';
 import FavCocktailItem from "../components/FavCocktailItem"
-import {getAllCocktails, getCocktail} from "../utils/asyncStorageCalls"
 
-const DisplayFavorites = ({navigation}) => {
+/*
 
-    const [value, setValue] = useState('');
-    const [cocktailsData, setCocktailsData] = useState([]);
-    const { getItem, setItem, mergeItem, removeItem } = useAsyncStorage('@storage_key');
+- ensuite plus tard faire un design commun pour les card des cocktails
+- commencer à faire le design pour les instructions pour faire les cocktails
+- pour ces instructions mettre un système de Stack pour passer du cocktail choisi
+à la page de Home ou de Search avec un bouton retour en arrière
 
-    const readItemsFromStorage = async () => {
-        const items = await getAllCocktails();
-        setCocktailsData(items);
-    };
 
-    const writeItemToStorage = async newValue => {
-        await setItem(newValue);
-        setValue(newValue);
-    };
 
-    useEffect(() => {
-        readItemsFromStorage();
-    }, []);
+
+
+
+- faire le bouton like/unlike pour les Cocktails
+ensuite voir ce que je fais je sais pas encore
+peut être l'affiche individuel des cocktails avec la lecture du dict de l'API
+-> voir si il y a pas dans l'API un moyen de récup QUE les instructions
+askip peut être il y a
+
+
+
+
+
+
+ */
+
+const FavoritesDisplay = ({cocktailsData}) => {
 
     /*
     Faire un nouveau fichier et y mettre les mêmes éléments que dans
@@ -34,18 +39,6 @@ const DisplayFavorites = ({navigation}) => {
 
     return (
         <View style={{ margin: 40 }}>
-            <Text>Current value: {value}</Text>
-            <TouchableOpacity
-                onPress={() =>
-                    writeItemToStorage(
-                        Math.random()
-                            .toString(36)
-                            .substr(2, 5)
-                    )
-                }
-            >
-                <Text>Update value</Text>
-            </TouchableOpacity>
             <Text>Favorites display</Text>
             <FlatList data={cocktailsData} renderItem={({item}) => <FavCocktailItem data={item}/>}/>
 
@@ -53,7 +46,7 @@ const DisplayFavorites = ({navigation}) => {
     );
 }
 
-export default DisplayFavorites;
+export default FavoritesDisplay;
 
 const styles = StyleSheet.create({
     container: {

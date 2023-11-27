@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+let inFav = ["11000", "15841", "178358", "178336"];
+
 const getAllKeys = async () => {
     let keys = []
     try {
@@ -13,15 +15,8 @@ const getAllKeys = async () => {
 }
 
 export const storeCocktail = async (cocktail) => {
-    /*
-        Dans le cocktailData on va tout mettre, juste renommer peut être
-        la key 'strDrink' en 'name'
-     */
-    let cocktailData = {
-        'name': cocktail.strDrink
-    }
     try {
-        await AsyncStorage.setItem(cocktail.idDrink, JSON.stringify(cocktailData));
+        await AsyncStorage.setItem(cocktail.idDrink, JSON.stringify(cocktail));
     } catch (error) {
         console.log(error);
     }
@@ -59,4 +54,33 @@ export const clearStorage = async () => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const updateIsFavoriteValue = async (drinks) => {
+    let favCocktails = await getAllCocktails();
+    for (let i = 0; i < drinks.length; i++){
+            drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
+    }
+    // console.log(drinks);
+    return drinks;
+}
+
+export const addToFavorites = (cocktailID) => {
+
+
+    // j'ai fais le fait qu'on puisse voir les cocktails on a mis en favoris sur
+    // la page de Search
+
+    // mnt faire en sorte qu'on puisse enelver un cocktail des favoris
+    // et que on ait du coup une update direct
+    // d'abord avec un true qui devient false et false=>true
+    // puis avec un Coeur
+
+
+    for (let i = 0; i < inFav.length; i++){
+        if (cocktailID === inFav[i]) {
+            console.log('in fav')
+        }
+    }
+
 };

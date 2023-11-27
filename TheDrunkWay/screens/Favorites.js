@@ -4,11 +4,13 @@ import {
     View,
     Button, TextInput, FlatList,
 } from "react-native";
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { useFocusEffect } from '@react-navigation/native';
+// import { useIsFocused } from "@react-navigation/native";
 import FavoritesDisplay from "./FavoritesDisplay";
-import {clearStorage, getAllCocktails, getCocktail, storeCocktail} from "../utils/asyncStorageCalls";
+import {clearStorage, getAllCocktails, storeCocktail} from "../utils/asyncStorageCalls";
 
 const value = {
     name: "Florentin Kocher",
@@ -18,22 +20,30 @@ const value = {
 function SetupFavorites({ navigation }) {
     const [text, onChangeText] = React.useState('');
 
+    const [cocktailsData, setCocktailsData] = useState([]);
+
+    const readItemsFromStorage = async () => {
+        const items = await getAllCocktails();
+        setCocktailsData(items);
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log('useFocusEffect')
+            readItemsFromStorage();
+
+            return () => {
+            };
+        }, [])
+    )
+
     return (
         <View style={styles.view}>
-            <Text>Utilisation de la librairie 'react-native-async-storage'</Text>
-            <View style={styles.view}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                />
-            </View>
             <View style={styles.researchView}>
-                <Button title={'store'} onPress={() => storeCocktail(text)}/>
-                <Button title={'get'} onPress={() => getCocktail(text)}/>
-                <Button title={'remove'} onPress={() => clearStorage()}/>
-                <Button title={'get all'} onPress={() => getAllCocktails()}/>
+                <Button title={'Clear storage'} onPress={() => clearStorage()}/>
+                <Button title={'Print all cocktails'} onPress={() => getAllCocktails()}/>
             </View>
+            <FavoritesDisplay cocktailsData={cocktailsData}/>
         </View>
     );
 }
