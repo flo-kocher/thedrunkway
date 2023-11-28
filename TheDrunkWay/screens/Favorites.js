@@ -1,16 +1,13 @@
 import {
     StyleSheet,
-    Text,
     View,
-    Button, TextInput, FlatList,
+    Button,
 } from "react-native";
-import React, {useCallback, useEffect, useState} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {useState} from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import { useFocusEffect } from '@react-navigation/native';
-// import { useIsFocused } from "@react-navigation/native";
 import FavoritesDisplay from "./FavoritesDisplay";
-import {clearStorage, getAllCocktails, storeCocktail} from "../utils/asyncStorageCalls";
+import {clearStorage, getAllCocktails} from "../utils/asyncStorageCalls";
 
 const value = {
     name: "Florentin Kocher",
