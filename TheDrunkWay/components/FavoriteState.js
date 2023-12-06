@@ -1,25 +1,38 @@
 import {MaterialIcons} from "@expo/vector-icons";
-import React from "react";
+import React, {useState} from "react";
 import {updateFavoriteCocktail} from "../utils/asyncStorageCalls";
+import {View} from "react-native";
 
 export default function FavoriteState(props) {
+    const [isFavorite, setIsFavorite] = useState(props.data.isFavorite);
+    const cocktail = props.data;
 
     /*
-    ajouter là dedans un useState je pense
-    avec une valeur genre state qui doit s'update en fonction de isFavorite
-    essayer de faire ça pour que le coeur s'update en temps réel
+
+    faire le design de l'affichage des trucs du cocktail
+    regarder sur un internet des exemples pour cocktails
+    ou manger
+    comment ils affichent tout
+
 
      */
 
+    async function update() {
+        await updateFavoriteCocktail(cocktail, !isFavorite);
+        setIsFavorite(!isFavorite);
+    }
 
-    const cocktail = props.data;
-    let iconName = 'favorite';
-
-    if (!cocktail.isFavorite) {
-        iconName = 'favorite-outline'
+    function setIconName() {
+        if (isFavorite) {
+            return 'favorite'
+        } else {
+            return 'favorite-outline'
+        }
     }
 
     return (
-        <MaterialIcons.Button name={iconName} size={30} color={'red'} onPress={() => updateFavoriteCocktail(cocktail)} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <MaterialIcons.Button name={setIconName()} size={30} color={'red'} onPress={() => update(!isFavorite)} />
+        </View>
     );
 }

@@ -32,18 +32,18 @@ export const getCocktail = async (drinkId) => {
     try {
         const savedCocktail = await AsyncStorage.getItem(drinkId);
         const currentCocktail = JSON.parse(savedCocktail);
-        console.log(currentCocktail);
+        // console.log(currentCocktail);
         return currentCocktail;
     } catch (error) {
         console.log(error);
     }
 };
 
-export const updateFavoriteCocktail = async (cocktail) => {
-    if (cocktail.isFavorite) {
-        await removeCocktail(cocktail);
-    } else {
+export const updateFavoriteCocktail = async (cocktail, isFavorite) => {
+    if (isFavorite) {
         await storeCocktail(cocktail);
+    } else {
+        await removeCocktail(cocktail);
     }
 };
 
@@ -73,7 +73,7 @@ export const clearStorage = async () => {
 export const updateIsFavoriteValue = async (drinks) => {
     let favCocktails = await getAllCocktails();
     for (let i = 0; i < drinks.length; i++){
-            drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
+        drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
     }
     // console.log(drinks);
     return drinks;

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, ImageBackground, Text, Switch} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, ImageBackground, Text} from 'react-native';
 import FavoriteState from "./FavoriteState";
 
 const styles = StyleSheet.create({

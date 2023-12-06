@@ -15,7 +15,6 @@ const value = {
 };
 
 function SetupFavorites({ navigation }) {
-    const [text, onChangeText] = React.useState('');
 
     const [cocktailsData, setCocktailsData] = useState([]);
 
@@ -50,19 +49,7 @@ const FavoritesStack = createNativeStackNavigator();
 const Search = ({navigation}) => {
 
     return <>
-
-        <FavoritesStack.Navigator>
-            <FavoritesStack.Screen
-                name="Setup favorites"
-                component={SetupFavorites}
-                options={
-                    ({navigation}) => ({
-                        headerLeft: (() => <Button title="Go to Favorites Display" onPress={() => navigation.navigate('DisplayFavorites')}/>)
-                    })
-                }
-            />
-            <FavoritesStack.Screen name="DisplayFavorites" component={FavoritesDisplay} />
-        </FavoritesStack.Navigator>
+        <SetupFavorites/>
     </>;
 };
 
