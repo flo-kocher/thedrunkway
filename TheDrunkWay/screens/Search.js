@@ -12,6 +12,7 @@ import checkStatus from "../utils/checkStatus";
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import CocktailListItem from '../components/CocktailListItem';
+import {updateIsFavoriteValue} from "../utils/asyncStorageCalls";
 
 const Search = ({navigation}) => {
     const queryClient = useQueryClient();
@@ -38,8 +39,9 @@ const Search = ({navigation}) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                data.drinks = updateIsFavoriteValue(data.drinks);
                 return data.drinks;
-            })  
+            })
             .catch(error => {
                 console.log(error.message);
             });
@@ -58,8 +60,8 @@ const Search = ({navigation}) => {
                 <Button title="Recherche" onPress={refetch}/>
             </View>
             <View >
-                {cocktailsByName != null ? 
-                    isLoading ? <Text>Chargement...</Text> : 
+                {cocktailsByName != null ?
+                    isLoading ? <Text>Chargement...</Text> :
                         <FlatList
                             data={cocktailsByName}
                             renderItem={item => <CocktailListItem cocktail={item}/>}
@@ -67,19 +69,19 @@ const Search = ({navigation}) => {
                             numColumns={numColumns}
                             style={styles.resultView}
                         />
-                    : 
+                    :
                     <Text>Faites une recherche par nom</Text>
                 }
             </View>
         </View>
     </>;
 };
-  
+
 export default Search;
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1, 
+        borderWidth: 1,
         borderRadius: 3,
     },
     input: {
@@ -93,13 +95,13 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 10,
-        borderWidth: 1, 
+        borderWidth: 1,
         borderRadius: 3,
     },
     containerBorder: {
-        borderColor: 'black', 
-        borderWidth: 1, 
-        borderRadius: 3, 
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 3,
         backgroundColor: '#C0C0C0',
         margin: 10,
     },

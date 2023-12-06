@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SearchScreen from './screens/Search';
+import FavoritesScreen from './screens/Favorites';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -117,14 +118,6 @@ function HomeScreenStacked() {
     //         </Tab.Screen>
     //     </Tab.Navigator>
     // </NavigationContainer>
-}
-
-function FavoritesScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Favorites!</Text>
-        </View>
-    );
 }
 
 function SettingsScreen() {
