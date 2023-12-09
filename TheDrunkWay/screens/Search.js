@@ -12,7 +12,7 @@ import checkStatus from "../utils/checkStatus";
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import CocktailListItem from '../components/CocktailListItem';
-import {updateIsFavoriteValue} from "../utils/asyncStorageCalls";
+import {getCocktail, updateIsFavoriteValue} from "../utils/asyncStorageCalls";
 
 const Search = ({navigation}) => {
     const queryClient = useQueryClient();
@@ -50,6 +50,8 @@ const Search = ({navigation}) => {
 
     return <>
         <View style={styles.view}>
+            {/* drinkId 11000 = mojito */}
+            <Button title="Test cocktail page" onPress={async () => navigation.navigate('Cocktail', await getCocktail(11000))}/>
             <View style={styles.researchView}>
                 <SearchBar
                     placeholder="Tapez ici..."

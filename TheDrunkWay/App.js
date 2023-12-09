@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SearchScreen from './screens/Search';
 import FavoritesScreen from './screens/Favorites';
+import SearchStack from "./screens/SearchStack";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -171,7 +172,7 @@ export default function App() {
                     })}
                 >
                     <Tab.Screen name="Home" component={HomeScreenStacked} />
-                    <Tab.Screen name="Search" component={SearchScreen} />
+                    <Tab.Screen name="Search" component={SearchStack} />
                     <Tab.Screen name="Favorites" component={FavoritesScreen} />
                     <Tab.Screen name="Settings" component={SettingsScreen} />
                 </Tab.Navigator>
