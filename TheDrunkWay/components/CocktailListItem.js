@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function CocktailListItem({cocktail}) {
+export default function CocktailListItem({navigation, cocktail}) {
     cocktail = cocktail.item;
 
     return (
@@ -35,7 +35,6 @@ export default function CocktailListItem({cocktail}) {
                     <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.strDrink}</Text>
                     <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.idDrink}</Text>
                     <FavoriteState data={cocktail} />
-                    {/* Bouton ne marche pas */}
                     <Button title="See cocktail" onPress={() => navigation.navigate('Cocktail', cocktail)}/>
                 </ImageBackground>
             </View>
