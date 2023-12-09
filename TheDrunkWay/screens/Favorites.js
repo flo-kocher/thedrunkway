@@ -4,7 +4,6 @@ import {
     Button,
 } from "react-native";
 import React, {useState} from "react";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import { useFocusEffect } from '@react-navigation/native';
 import FavoritesDisplay from "./FavoritesDisplay";
 import {clearStorage, getAllCocktails} from "../utils/asyncStorageCalls";
@@ -43,8 +42,6 @@ function SetupFavorites({ navigation }) {
         </View>
     );
 }
-
-const FavoritesStack = createNativeStackNavigator();
 
 const Search = ({navigation}) => {
 

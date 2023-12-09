@@ -15,6 +15,7 @@ import CocktailListItem from '../components/CocktailListItem';
 import {getCocktail, updateIsFavoriteValue} from "../utils/asyncStorageCalls";
 
 const Search = ({navigation}) => {
+    console.log(navigation, 'search')
     const queryClient = useQueryClient();
     const [cocktailName, setCocktailName] = useState("");
     const numColumns = 2;
@@ -35,16 +36,16 @@ const Search = ({navigation}) => {
     const getCocktails = (name) => {
         if(name != ""){
             return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name)
-            .then(checkStatus)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                data.drinks = updateIsFavoriteValue(data.drinks);
-                return data.drinks;
-            })
-            .catch(error => {
-                console.log(error.message);
-            });
+                .then(checkStatus)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    data.drinks = updateIsFavoriteValue(data.drinks);
+                    return data.drinks;
+                })
+                .catch(error => {
+                    console.log(error.message);
+                });
         }
     }
 
@@ -66,7 +67,7 @@ const Search = ({navigation}) => {
                     isLoading ? <Text>Chargement...</Text> :
                         <FlatList
                             data={cocktailsByName}
-                            renderItem={item => <CocktailListItem cocktail={item}/>}
+                            renderItem={item => <CocktailListItem navigation={navigation} cocktail={item}/>}
                             keyExtractor={(item, index) => String(index)}
                             numColumns={numColumns}
                             style={styles.resultView}
