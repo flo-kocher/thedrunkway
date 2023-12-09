@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, ImageBackground, Text} from 'react-native';
+import {StyleSheet, View, ImageBackground, Text, Button} from 'react-native';
 import FavoriteState from "./FavoriteState";
 
 const styles = StyleSheet.create({
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function CocktailListItem({cocktail}) {
+export default function CocktailListItem({navigation, cocktail}) {
     cocktail = cocktail.item;
 
     return (
@@ -35,6 +35,7 @@ export default function CocktailListItem({cocktail}) {
                     <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.strDrink}</Text>
                     <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.idDrink}</Text>
                     <FavoriteState data={cocktail} />
+                    <Button title="See cocktail" onPress={() => navigation.navigate('Cocktail', cocktail)}/>
                 </ImageBackground>
             </View>
         </View>
