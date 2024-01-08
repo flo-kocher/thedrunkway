@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, FlatList, Image } from 'react-native';
+import {StyleSheet, Text, View, Button, FlatList, Image, TouchableOpacity} from 'react-native';
 import { Card, Avatar, IconButton } from 'react-native-paper';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,6 +9,10 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Favorites from './screens/Favorites';
 import Cocktail from "./screens/Cocktail";
 import Search from "./screens/Search";
+import {useTranslation} from "react-i18next";
+import {languageResources} from "./i18n";
+import languagesList from "./services/languagesList.json"
+import i18next from "i18next";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -65,34 +69,45 @@ function Home() {
 }
 
 function Settings() {
+    const changeLng = lng => {
+        i18next.changeLanguage(lng);
+    }
+
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings!</Text>
+            <FlatList data={Object.keys(languageResources)} renderItem={({item}) => (
+                <TouchableOpacity
+                onPress={() => changeLng(item)}>
+                <Text>{languagesList[item].nativeName}</Text>
+                </TouchableOpacity>
+            )}/>
         </View>
     );
 }
 
 function Root() {
+    const {t} = useTranslation();
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName, ionicons = true;
 
-                    if (route.name === 'Home') {
+                    if (route.name === t('home')) {
                         iconName = focused
                             ? 'ios-information-circle'
                             : 'ios-information-circle-outline';
-                    } else if (route.name === 'Search') {
+                    } else if (route.name === t('search')) {
                         iconName = focused
                             ? 'search-circle'
                             : 'search-circle-outline';
-                    } else if (route.name === 'Favorites') {
+                    } else if (route.name === t('favorites')) {
                         ionicons = false;
                         iconName = focused
                             ? 'favorite'
                             : 'favorite-outline';
-                    } else if (route.name === 'Settings') {
+                    } else if (route.name === t('settings')) {
                         iconName = focused
                             ? 'settings'
                             : 'settings-outline';
@@ -109,10 +124,10 @@ function Root() {
                 tabBarInactiveTintColor: 'gray',
             })}
         >
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Search" component={Search} />
-            <Tab.Screen name="Favorites" component={Favorites} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen name={t('home')} component={Home} />
+            <Tab.Screen name={t('search')} component={Search} />
+            <Tab.Screen name={t('favorites')} component={Favorites} />
+            <Tab.Screen name={t('settings')} component={Settings} />
         </Tab.Navigator>
     )
 }
