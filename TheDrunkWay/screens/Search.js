@@ -52,7 +52,6 @@ const Search = ({navigation}) => {
     return <>
         <View style={styles.view}>
             {/* drinkId 11000 = mojito */}
-            <Button title="Test cocktail page" onPress={async () => navigation.navigate('Cocktail', await getCocktail(11000))}/>
             <View style={styles.researchView}>
                 <SearchBar
                     placeholder="Tapez ici..."

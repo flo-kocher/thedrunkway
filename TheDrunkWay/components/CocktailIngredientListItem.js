@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, View, ImageBackground, Text, Button} from 'react-native';
 
 export default function CocktailIngredientListItem({data}) {
-    let ingredient = data.item[0];
-    let measure = data.item[1];
+    let ingredient = data[0];
+    let measure = data[1];
 
     return (
         <View>
@@ -14,6 +14,6 @@ export default function CocktailIngredientListItem({data}) {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 30,
+        fontSize: 20,
     },
 });
