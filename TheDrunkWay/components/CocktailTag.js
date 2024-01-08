@@ -19,10 +19,11 @@ export default function CocktailTag({data}) {
 const styles = StyleSheet.create({
     text: {
         color: '#ffffff',
+        fontSize: 10,
     },
     tag: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 35,
         padding: 10,
         margin: 10,
         justifyContent: 'center',
