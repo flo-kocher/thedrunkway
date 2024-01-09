@@ -18,7 +18,7 @@ const Search = ({navigation}) => {
     console.log(navigation, 'search')
     const queryClient = useQueryClient();
     const [cocktailName, setCocktailName] = useState("");
-    const numColumns = 2;
+    const numColumns = 3;
     const { isLoading, isError, error, data: cocktailsByName, refetch } = useQuery('cocktailsName', () => getCocktails(cocktailName), {
         refetchOnWindowFocus: false,
         enabled: false // disable this query from automatically running
@@ -51,7 +51,6 @@ const Search = ({navigation}) => {
 
     return <>
         <View style={styles.view}>
-            {/* drinkId 11000 = mojito */}
             <View style={styles.researchView}>
                 <SearchBar
                     placeholder="Tapez ici..."
