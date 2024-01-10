@@ -1,9 +1,16 @@
 import React from "react";
-import {StyleSheet, View, Text, FlatList, ImageBackground, ScrollView, SectionList} from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    ImageBackground,
+    ScrollView,
+} from 'react-native';
 import CocktailIngredientListItem from "../components/CocktailIngredientListItem";
 import {getIngredientList} from "../utils/cocktailGetters";
 import CocktailTag from "../components/CocktailTag";
 import {FontAwesome} from "@expo/vector-icons";
+import ShareLink from "../components/ShareLink";
 
 const Cocktail = ({navigation, route}) => {
     const cocktail = route.params;
@@ -17,6 +24,9 @@ const Cocktail = ({navigation, route}) => {
 
     return (
         <ScrollView>
+            <View style={styles.more}>
+                <ShareLink idDrink={cocktail.idDrink}/>
+            </View>
             <View style={styles.view}>
                 <View style={styles.row_1}>
                     <ImageBackground source={{uri: cocktail.strDrinkThumb}} style={styles.img}>
@@ -62,6 +72,10 @@ const styles = StyleSheet.create({
     view: {
         flex: 1,
         flexDirection: "column",
+    },
+    more: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
     },
     title: {
         fontWeight: 'bold',
