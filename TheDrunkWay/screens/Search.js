@@ -64,9 +64,14 @@ const Search = ({navigation}) => {
             <View style={styles.researchView}>
                 <View style={{alignItems: 'flex-end'}}>
                     <TouchableOpacity onPress={() => updateViewMode()}>
-                        <Ionicons name={viewMode}
-                                  size={30}
-                        />
+                        {viewMode === 'grid' ?
+                            <Ionicons name={'list'}
+                                      size={30}
+                            /> :
+                            <Ionicons name={'grid'}
+                                      size={30}
+                            />
+                        }
                     </TouchableOpacity>
                 </View>
                 <SearchBar
@@ -80,7 +85,7 @@ const Search = ({navigation}) => {
             <View >
                 {cocktailsByName != null ?
                     isLoading ? <Text>Chargement...</Text> :
-                        viewMode === 'grid' ?
+                        viewMode === 'list' ?
                             <FlatList
                                 data={cocktailsByName}
                                 renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}

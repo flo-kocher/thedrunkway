@@ -13,6 +13,7 @@ import {useTranslation} from "react-i18next";
 import {languageResources} from "./i18n";
 import languagesList from "./services/languagesList.json"
 import i18next from "i18next";
+import Home from "./screens/Home";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,43 +31,6 @@ const img_example = {
     width: 64,
     height: 64,
 };
-
-function Home() {
-    return (
-        <View style={{ flex: 1, marginTop: StatusBar.currentHeight || 0}}>
-            {/*<ScrollView style={styles.scrollView}>*/}
-            {/*    <Text>Home 1: ScrollView</Text>*/}
-            {/*    <Image source={img_example}/>*/}
-            {/*    <Image source={img_example}/>*/}
-            {/*    <Image source={img_example}/>*/}
-            {/*    <Image source={img_example}/>*/}
-            {/*</ScrollView>*/}
-            <FlatList
-                styles={{margin: 5}}
-                columnWrapperStyle={styles.row}
-                data={[{title: 'Title Text', key: 'item1'},
-                    {title: 'Title Text', key: 'item2'},
-                    {title: 'Title Text', key: 'item3'},
-                    {title: 'Title Text', key: 'item4'},
-                    {title: 'Title Text', key: 'item5'}, {title: 'Title Text', key: 'item10'},
-                    {title: 'Title Text', key: 'item6'},
-                    {title: 'Title Text', key: 'item8'},
-                    {title: 'Title Text', key: 'item9'},
-                ]}
-                numColumns={2}
-                renderItem={({item, index, separators}) => (
-                    // <Image source={img_example}/>
-                    <Card.Title
-                        title="Card Title"
-                        subtitle="Card Subtitle"
-                        left={(props) => <Avatar.Icon {...props} icon="folder" />}
-                        right={(props) => <IconButton {...props} icon="dots-vertical" onPress={() => {}} />}
-                    />
-                )}
-            />
-        </View>
-    );
-}
 
 function Settings() {
     const changeLng = lng => {

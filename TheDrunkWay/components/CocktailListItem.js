@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
 
 export default function CocktailListItem({navigation, cocktail, mode}) {
     cocktail = cocktail.item;
+    console.log(cocktail)
 
-    if (mode === 'list')
+    if (mode === 'grid')
         return (
             <TouchableOpacity onPress={() => navigation.navigate('Cocktail', cocktail)}>
                 <View style={styles.container}>
