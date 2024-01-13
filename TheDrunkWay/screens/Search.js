@@ -2,34 +2,29 @@ import {
     Text,
     View,
     StyleSheet,
-    TextInput,
-    Image,
+    ScrollView,
     Button,
-    FlatList, TouchableOpacity
+    TouchableOpacity, 
+    ActivityIndicator
 } from "react-native";
 import React, {useState} from "react";
 import checkStatus from "../utils/checkStatus";
-import { useQuery, useQueryClient, useMutation } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import CocktailListItem from '../components/CocktailListItem';
-import {getCocktail, updateIsFavoriteValue} from "../utils/asyncStorageCalls";
-import {Ionicons} from "@expo/vector-icons";
+import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
+import { Ionicons } from "@expo/vector-icons";
+import LetterBtn from "../components/LetterBtn";
 
 const Search = ({navigation}) => {
-    console.log(navigation, 'search')
+    // console.log(navigation, 'search')
     const queryClient = useQueryClient();
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     const [cocktailName, setCocktailName] = useState("");
     const [viewMode, setViewMode] = useState("grid");
-    const numColumns = 1;
-    const { isLoading, isError, error, data: cocktailsByName, refetch } = useQuery('cocktailsName', () => getCocktails(cocktailName), {
-        refetchOnWindowFocus: false,
-        enabled: false // disable this query from automatically running
-    });
-
-    // const handleClick = () => {
-    //     // manually refetch
-    //     refetch();
-    // };
+    const [searchType, setSearchType] = useState("");
+    const [searchValue, setSearchValue] = useState("");
+    const { isLoading, data: cocktails } = useQuery(['cocktails', {searchType, searchValue}], () => getCocktails(searchType, searchValue));
 
     const updateCocktailName = (name) => {
         setCocktailName(name);
@@ -43,19 +38,24 @@ const Search = ({navigation}) => {
         }
     };
 
-    const getCocktails = (name) => {
-        if(name != ""){
-            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name)
+    const handleClick = (searchType, searchValue) => {
+        setSearchType(searchType);
+        setSearchValue(searchValue);
+    };
+
+    const getCocktails = (searchType, value) => {
+        //searchType = s or f (s = by name, f = by letter)
+        if(value != ""){
+            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?' + searchType + '=' + value)
                 .then(checkStatus)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     data.drinks = updateIsFavoriteValue(data.drinks);
                     return data.drinks;
                 })
                 .catch(error => {
                     console.log(error.message);
-                });
+                })
         }
     }
 
@@ -74,43 +74,31 @@ const Search = ({navigation}) => {
                         }
                     </TouchableOpacity>
                 </View>
+                <Text>Search by name</Text>
                 <SearchBar
-                    placeholder="Tapez ici..."
+                    placeholder="Enter a cocktail name..."
                     onChangeText={updateCocktailName}
                     value={cocktailName}
                     searchIcon={null}
                 />
-                <Button title="Recherche" onPress={refetch}/>
+                <Button title="Search" onPress={() => handleClick("s", cocktailName)}/>
+                <Text>Search by letter</Text>
+                <ScrollView horizontal={true}>
+                    {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("f", value)}/>)}
+                </ScrollView>
             </View>
-            <View >
-                {cocktailsByName != null ?
-                    isLoading ? <Text>Chargement...</Text> :
-                        viewMode === 'list' ?
-                            <FlatList
-                                data={cocktailsByName}
-                                renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
-                                key={'_'}
-                                keyExtractor={(item, index) => "_"+String(index)}
-                                numColumns={1}
-                                style={styles.resultView}
-                            />
-                            :
-                            <FlatList
-                                data={cocktailsByName}
-                                renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
-                                key={'#'}
-                                keyExtractor={(item, index) => "#"+String(index)}
-                                numColumns={3}
-                                style={styles.resultView}
-                            />
-                    :
-                    <Text>Faites une recherche par nom</Text>
-                }
-            </View>
+            {isLoading ?                 
+                <ActivityIndicator /> 
+                :
+                cocktails == null ?
+                    <Text>Do a research by name or by letter</Text> :
+                    <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
+                        {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
+                    </ScrollView>
+            }
         </View>
     </>;
 };
-
 export default Search;
 
 const styles = StyleSheet.create({
@@ -124,7 +112,6 @@ const styles = StyleSheet.create({
         padding: 5
     },
     view: {
-        margin: 5,
         flex: 1
     },
     button: {
@@ -140,10 +127,14 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     researchView: {
-        marginBottom: 5
+        margin: 5,
+        marginBottom: 10
     },
-    resultView: {
-        // width: '100%',
-        // height: "10px"
+    resultGridScrollView:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    resultListScrollView:{
+        flexDirection: 'column',
     }
 });

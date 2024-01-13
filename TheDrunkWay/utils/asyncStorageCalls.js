@@ -55,7 +55,7 @@ export const getAllCocktails = async () => {
             const val = await AsyncStorage.getItem(key);
             result.push(JSON.parse(val));
         }
-        console.log(result)
+        // console.log(result)
         return result;
     } catch (error) {
         console.log(error);
@@ -75,6 +75,5 @@ export const updateIsFavoriteValue = async (drinks) => {
     for (let i = 0; i < drinks.length; i++){
         drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
     }
-    // console.log(drinks);
     return drinks;
 }

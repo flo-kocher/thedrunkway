@@ -9,11 +9,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Favorites from './screens/Favorites';
 import Cocktail from "./screens/Cocktail";
 import Search from "./screens/Search";
+import CategoriesSearchResult from "./screens/CategoriesSearchResult";
 import {useTranslation} from "react-i18next";
 import {languageResources} from "./i18n";
 import languagesList from "./services/languagesList.json"
 import i18next from "i18next";
 import Home from "./screens/Home";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -99,12 +101,15 @@ function Root() {
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="Root" component={Root} options={{headerShown: false}}/>
-                    <Stack.Screen name="Cocktail" component={Cocktail}/>
-                </Stack.Navigator>
-            </NavigationContainer>
+            <SafeAreaView style={{flex: 1}}>
+                <NavigationContainer>
+                    <Stack.Navigator>
+                        <Stack.Screen name="Root" component={Root} options={{headerShown: false}}/>
+                        <Stack.Screen name="CategoriesSearchResult" component={CategoriesSearchResult} />
+                        <Stack.Screen name="Cocktail" component={Cocktail} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </SafeAreaView>
         </QueryClientProvider>
     );
 }
