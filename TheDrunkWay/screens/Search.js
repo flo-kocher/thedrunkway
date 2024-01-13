@@ -5,7 +5,7 @@ import {
     TextInput,
     Image,
     Button,
-    FlatList
+    FlatList, TouchableOpacity
 } from "react-native";
 import React, {useState} from "react";
 import checkStatus from "../utils/checkStatus";
@@ -13,12 +13,14 @@ import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import CocktailListItem from '../components/CocktailListItem';
 import {getCocktail, updateIsFavoriteValue} from "../utils/asyncStorageCalls";
+import {Ionicons} from "@expo/vector-icons";
 
 const Search = ({navigation}) => {
     console.log(navigation, 'search')
     const queryClient = useQueryClient();
     const [cocktailName, setCocktailName] = useState("");
-    const numColumns = 2;
+    const [viewMode, setViewMode] = useState("grid");
+    const numColumns = 1;
     const { isLoading, isError, error, data: cocktailsByName, refetch } = useQuery('cocktailsName', () => getCocktails(cocktailName), {
         refetchOnWindowFocus: false,
         enabled: false // disable this query from automatically running
@@ -31,6 +33,14 @@ const Search = ({navigation}) => {
 
     const updateCocktailName = (name) => {
         setCocktailName(name);
+    };
+
+    const updateViewMode = () => {
+        if(viewMode === 'grid') {
+            setViewMode('list');
+        } else {
+            setViewMode('grid')
+        }
     };
 
     const getCocktails = (name) => {
@@ -51,9 +61,19 @@ const Search = ({navigation}) => {
 
     return <>
         <View style={styles.view}>
-            {/* drinkId 11000 = mojito */}
-            <Button title="Test cocktail page" onPress={async () => navigation.navigate('Cocktail', await getCocktail(11000))}/>
             <View style={styles.researchView}>
+                <View style={{alignItems: 'flex-end'}}>
+                    <TouchableOpacity onPress={() => updateViewMode()}>
+                        {viewMode === 'grid' ?
+                            <Ionicons name={'list'}
+                                      size={30}
+                            /> :
+                            <Ionicons name={'grid'}
+                                      size={30}
+                            />
+                        }
+                    </TouchableOpacity>
+                </View>
                 <SearchBar
                     placeholder="Tapez ici..."
                     onChangeText={updateCocktailName}
@@ -65,15 +85,24 @@ const Search = ({navigation}) => {
             <View >
                 {cocktailsByName != null ?
                     isLoading ? <Text>Chargement...</Text> :
-                    <View>
-                        <FlatList
-                            data={cocktailsByName}
-                            renderItem={item => <CocktailListItem navigation={navigation} cocktail={item}/>}
-                            keyExtractor={(item, index) => String(index)}
-                            numColumns={numColumns}
-                            style={styles.resultView}
-                        />
-                    </View>
+                        viewMode === 'list' ?
+                            <FlatList
+                                data={cocktailsByName}
+                                renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
+                                key={'_'}
+                                keyExtractor={(item, index) => "_"+String(index)}
+                                numColumns={1}
+                                style={styles.resultView}
+                            />
+                            :
+                            <FlatList
+                                data={cocktailsByName}
+                                renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
+                                key={'#'}
+                                keyExtractor={(item, index) => "#"+String(index)}
+                                numColumns={3}
+                                style={styles.resultView}
+                            />
                     :
                     <Text>Faites une recherche par nom</Text>
                 }
