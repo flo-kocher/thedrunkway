@@ -1,68 +1,96 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     StyleSheet,
     View,
     Text,
     ImageBackground,
     ScrollView,
+    ActivityIndicator
 } from 'react-native';
 import CocktailIngredientListItem from "../components/CocktailIngredientListItem";
 import {getIngredientList} from "../utils/cocktailGetters";
 import CocktailTag from "../components/CocktailTag";
 import {FontAwesome} from "@expo/vector-icons";
 import ShareLink from "../components/ShareLink";
+import { useQuery } from 'react-query';
+import checkStatus from "../utils/checkStatus";
 
 const Cocktail = ({navigation, route}) => {
-    const cocktail = route.params;
-
-    let tags = [];
-    if (cocktail.strTags) {
-        tags = cocktail.strTags.split(',');
+    const cocktailInfo = route.params.cocktail;
+    const { isLoading, data: cocktail } = useQuery(['cocktail', {cocktailID : cocktailInfo.idDrink}], () => getCocktail(cocktailInfo.idDrink));
+    const [ingredientList, setIngredientsList] = useState([]);
+    const [tags, setTags] = useState([]);
+ 
+    const getCocktail = (cocktailID) => {
+        if(route.params.previousScreen == "CategoriesSearchResult"){
+            return fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + cocktailID)
+                .then(checkStatus)
+                .then(response => response.json())
+                .then(data => {
+                    setIngredientsList(getIngredientList(data.drinks[0]));
+                    if (data.drinks[0].strTags) {
+                        setTags(data.drinks[0].strTags.split(','));
+                    }
+                    return data.drinks[0];
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+        }
+        else{
+            setIngredientsList(getIngredientList(cocktailInfo));
+            if (cocktailInfo.strTags) {
+                setTags(cocktailInfo.strTags.split(','));
+            }
+            return cocktailInfo;
+        }
     }
 
-    let ingredientList = getIngredientList(cocktail);
-
-    return (
-        <ScrollView>
-            <View style={styles.more}>
-                <ShareLink idDrink={cocktail.idDrink}/>
-            </View>
-            <View style={styles.view}>
-                <View style={styles.row_1}>
-                    <ImageBackground source={{uri: cocktail.strDrinkThumb}} style={styles.img}>
-                        <Text style={styles.title}>{cocktail.strDrink}</Text>
-                    </ImageBackground>
+    return (<View>
+        {
+            !cocktail || isLoading ?
+            <ActivityIndicator/> :
+            <ScrollView>
+                <View style={styles.more}>
+                    <ShareLink idDrink={cocktail.idDrink}/>
                 </View>
-                <View style={styles.row_2}>
-                    <View style={styles.subtitle_view}>
-                        <Text style={styles.subtitle1}>{cocktail.strAlcoholic} {cocktail.strCategory}</Text>
+                <View style={styles.view}>
+                    <View style={styles.row_1}>
+                        <ImageBackground source={{uri: cocktail.strDrinkThumb}} style={styles.img}>
+                            <Text style={styles.title}>{cocktail.strDrink}</Text>
+                        </ImageBackground>
                     </View>
-                    <Text style={styles.subtitle2}>Ingredients</Text>
-                    <View style={styles.ingredient_list}>
-                        <ScrollView>
-                            {ingredientList.map((value, index) => <CocktailIngredientListItem key={index} data={value}/>)}
+                    <View style={styles.row_2}>
+                        <View style={styles.subtitle_view}>
+                            <Text style={styles.subtitle1}>{cocktail.strAlcoholic} {cocktail.strCategory}</Text>
+                        </View>
+                        <Text style={styles.subtitle2}>Ingredients</Text>
+                        <View style={styles.ingredient_list}>
+                            <ScrollView>
+                                {ingredientList.map((value, index) => <CocktailIngredientListItem key={index} data={value}/>)}
+                            </ScrollView>
+                        </View>
+                    </View>
+                    <View style={styles.row_3}>
+                        <Text style={styles.subtitle2}>Instructions</Text>
+                        <View style={styles.instructions}>
+                            <View style={{flex: 1, flexDirection: 'row'}}>
+                                {/* TODO: On peut adapter le logo en fonction du type (il ya des logos de martini, wine, water, mug ...*/}
+                                <FontAwesome name={'glass'} />
+                                <Text style={styles.text}>Served in a {cocktail.strGlass}</Text>
+                            </View>
+                            <Text style={styles.text}>{cocktail.strInstructions}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.row_4}>
+                        <ScrollView horizontal={true}>
+                            {tags.map((value, index) => <CocktailTag key={index} style={styles.text} data={value}/>)}
                         </ScrollView>
                     </View>
                 </View>
-                <View style={styles.row_3}>
-                    <Text style={styles.subtitle2}>Instructions</Text>
-                    <View style={styles.instructions}>
-                        <View style={{flex: 1, flexDirection: 'row'}}>
-                            {/* TODO: On peut adapter le logo en fonction du type (il ya des logos de martini, wine, water, mug ...*/}
-                            <FontAwesome name={'glass'} />
-                            <Text style={styles.text}>Served in a {cocktail.strGlass}</Text>
-                        </View>
-                        <Text style={styles.text}>{cocktail.strInstructions}</Text>
-                    </View>
-                </View>
-                <View style={styles.row_4}>
-                    <ScrollView
-                        horizontal={true}>
-                        {tags.map((value, index) => <CocktailTag key={index} style={styles.text} data={value}/>)}
-                    </ScrollView>
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        }
+        </View>
     );
 }
 

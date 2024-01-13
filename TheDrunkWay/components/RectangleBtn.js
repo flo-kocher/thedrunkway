@@ -2,17 +2,12 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 
-export default function RectangleBtn({searchBy}) {
+export default function RectangleBtn({searchBy, handleClick}) {
     // TODO: display les btn par 2 ou 3 par ligne sur l'écran
     //  -> peut être les mettres dans des Flat pour que ça soit plus simple
 
-    const onRectangleBtnClick = () => {
-        console.log('you clicked on a rectangle btn to search by : ' + searchBy);
-    }
-
     return (
-        <TouchableOpacity style={styles.tag}
-                          onPress={onRectangleBtnClick}>
+        <TouchableOpacity style={styles.tag} onPress={handleClick}>
             <Text style={styles.text}>{searchBy}</Text>
         </TouchableOpacity>
     );

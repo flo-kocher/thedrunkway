@@ -4,7 +4,8 @@ import {
     StyleSheet,
     ScrollView,
     Button,
-    FlatList, TouchableOpacity
+    TouchableOpacity, 
+    ActivityIndicator
 } from "react-native";
 import React, {useState} from "react";
 import checkStatus from "../utils/checkStatus";
@@ -43,20 +44,9 @@ const Search = ({navigation}) => {
     };
 
     const getCocktails = (searchType, value) => {
-        if(searchType == "Name" && value != ""){
-            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + value)
-                .then(checkStatus)
-                .then(response => response.json())
-                .then(data => {
-                    data.drinks = updateIsFavoriteValue(data.drinks);
-                    return data.drinks;
-                })
-                .catch(error => {
-                    console.log(error.message);
-                });
-        }
-        if(searchType == "Letter" && value != ""){
-            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=' + value)
+        //searchType = s or f (s = by name, f = by letter)
+        if(value != ""){
+            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?' + searchType + '=' + value)
                 .then(checkStatus)
                 .then(response => response.json())
                 .then(data => {
@@ -86,50 +76,26 @@ const Search = ({navigation}) => {
                 </View>
                 <Text>Search by name</Text>
                 <SearchBar
-                    placeholder="Tapez ici..."
+                    placeholder="Enter a cocktail name..."
                     onChangeText={updateCocktailName}
                     value={cocktailName}
                     searchIcon={null}
                 />
-                <Button title="Recherche" onPress={() => handleClick("Name", cocktailName)}/>
+                <Button title="Search" onPress={() => handleClick("s", cocktailName)}/>
                 <Text>Search by letter</Text>
-                <ScrollView
-                    horizontal={true}>
-                    {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("Letter", value)}/>)}
+                <ScrollView horizontal={true}>
+                    {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("f", value)}/>)}
                 </ScrollView>
             </View>
-            <View >
-                {cocktails != null ?
-                    isLoading ? <Text>Chargement...</Text> :
-                        viewMode === 'list' ?
-                            <FlatList
-                                data={cocktails}
-                                renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
-                                key={'_'}
-                                keyExtractor={(item, index) => "_"+String(index)}
-                                numColumns={1}
-                                style={styles.resultView}
-                            />
-                            :
-                            <FlatList
-                                data={cocktails}
-                                renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
-                                key={'#'}
-                                keyExtractor={(item, index) => "#"+String(index)}
-                                numColumns={3}
-                                style={styles.resultView}
-                            />
-                            // <ScrollView>
-                            //     {cocktails.map((item, index) => <CocktailListItem key={"#"+String(index)} navigation={navigation} cocktail={item} mode={viewMode}/>)}
-                            // </ScrollView>
-                            // :
-                            // <ScrollView>
-                            //     {cocktails.map((item, index) => <CocktailListItem key={"#"+String(index)} navigation={navigation} cocktail={item} mode={viewMode}/>)}
-                            // </ScrollView>
-                    :
-                    <Text>Do a research by name or by letter</Text>
-                }
-            </View>
+            {isLoading ?                 
+                <ActivityIndicator /> 
+                :
+                cocktails == null ?
+                    <Text>Do a research by name or by letter</Text> :
+                    <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
+                        {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
+                    </ScrollView>
+            }
         </View>
     </>;
 };
@@ -146,7 +112,6 @@ const styles = StyleSheet.create({
         padding: 5
     },
     view: {
-        margin: 5,
         flex: 1
     },
     button: {
@@ -162,10 +127,14 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     researchView: {
-        marginBottom: 5
+        margin: 5,
+        marginBottom: 10
     },
-    resultView: {
-        // width: '100%',
-        // height: "10px"
+    resultGridScrollView:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    resultListScrollView:{
+        flexDirection: 'column',
     }
 });
