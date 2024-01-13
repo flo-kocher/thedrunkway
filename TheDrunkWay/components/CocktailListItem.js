@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 
 export default function CocktailListItem({navigation, cocktail, mode}) {
     cocktail = cocktail.item;
-    console.log(cocktail)
 
     if (mode === 'grid')
         return (

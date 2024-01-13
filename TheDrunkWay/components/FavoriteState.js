@@ -1,28 +1,29 @@
 import {MaterialIcons} from "@expo/vector-icons";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {updateFavoriteCocktail} from "../utils/asyncStorageCalls";
 import {StyleSheet, View} from "react-native";
 import {IconButton} from "react-native-paper";
 
 export default function FavoriteState(props) {
-    const [isFavorite, setIsFavorite] = useState(props.data.isFavorite);
     const cocktail = props.data;
+    const [isLoading, setIsLoading] = useState(false);
 
     async function update() {
-        await updateFavoriteCocktail(cocktail, !isFavorite);
-        setIsFavorite(!isFavorite);
+        await updateFavoriteCocktail(cocktail, !cocktail.isFavorite);
+        cocktail.isFavorite = !cocktail.isFavorite;
+        setIsLoading(!isLoading);
     }
 
-    function setIconName() {
-        if (isFavorite) {
-            return 'favorite'
-        } else {
-            return 'favorite-outline'
-        }
-    }
+    // function setIconName() {
+    //     if (cocktail.isFavorite) {
+    //         return 'favorite'
+    //     } else {
+    //         return 'favorite-outline'
+    //     }
+    // }
 
     function setIconNameHeart() {
-        if (isFavorite) {
+        if (cocktail.isFavorite) {
             return 'heart'
         } else {
             return 'heart-outline'
@@ -34,7 +35,7 @@ export default function FavoriteState(props) {
             <IconButton icon={setIconNameHeart()}
                         iconColor={'red'}
                         size={30}
-                        onPress={() => update(!isFavorite)}
+                        onPress={() => update(!cocktail.isFavorite)}
             />
             {/*<MaterialIcons.Button name={setIconName()} style={styles.icon} size={30} color={'red'} onPress={() => update(!isFavorite)} />*/}
         </View>

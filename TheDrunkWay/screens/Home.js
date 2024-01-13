@@ -9,6 +9,7 @@ import CocktailListItem from "../components/CocktailListItem";
 import checkStatus from "../utils/checkStatus";
 import LetterBtn from "../components/LetterBtn";
 import RectangleBtn from "../components/RectangleBtn";
+import { useQuery, useQueryClient, useMutation } from 'react-query';
 
 const getRandomCocktails = () => {
     return fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
@@ -48,7 +49,6 @@ const Home = ({navigation}) => {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     const searchByAlcohol = ['Alcoholic', 'Non alcoholic'];
     // équivalent de type de préparation ?
     const searchByCategory = ['Ordinary drink', 'Cocktail'];
@@ -75,7 +75,7 @@ const Home = ({navigation}) => {
 
     return (
         <View style={{flex: 1, marginTop: StatusBar.currentHeight || 0}}>
-            <Text>Most popular cocktails</Text>
+            <Text>Random cocktail selection</Text>
             {isLoading ? (
                 <ActivityIndicator />
             ) : (
@@ -88,11 +88,6 @@ const Home = ({navigation}) => {
                     style={styles.resultView}
                 />
             )}
-            <Text>Search by letter</Text>
-            <ScrollView
-                horizontal={true}>
-                {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value}/>)}
-            </ScrollView>
 
             <Text>Filter by alcohol</Text>
             {/*<FlatList*/}

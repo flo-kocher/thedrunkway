@@ -2,34 +2,28 @@ import {
     Text,
     View,
     StyleSheet,
-    TextInput,
-    Image,
+    ScrollView,
     Button,
     FlatList, TouchableOpacity
 } from "react-native";
 import React, {useState} from "react";
 import checkStatus from "../utils/checkStatus";
-import { useQuery, useQueryClient, useMutation } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import CocktailListItem from '../components/CocktailListItem';
-import {getCocktail, updateIsFavoriteValue} from "../utils/asyncStorageCalls";
-import {Ionicons} from "@expo/vector-icons";
+import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
+import { Ionicons } from "@expo/vector-icons";
+import LetterBtn from "../components/LetterBtn";
 
 const Search = ({navigation}) => {
-    console.log(navigation, 'search')
+    // console.log(navigation, 'search')
     const queryClient = useQueryClient();
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     const [cocktailName, setCocktailName] = useState("");
     const [viewMode, setViewMode] = useState("grid");
-    const numColumns = 1;
-    const { isLoading, isError, error, data: cocktailsByName, refetch } = useQuery('cocktailsName', () => getCocktails(cocktailName), {
-        refetchOnWindowFocus: false,
-        enabled: false // disable this query from automatically running
-    });
-
-    // const handleClick = () => {
-    //     // manually refetch
-    //     refetch();
-    // };
+    const [searchType, setSearchType] = useState("");
+    const [searchValue, setSearchValue] = useState("");
+    const { isLoading, data: cocktails } = useQuery(['cocktails', {searchType, searchValue}], () => getCocktails(searchType, searchValue));
 
     const updateCocktailName = (name) => {
         setCocktailName(name);
@@ -43,19 +37,35 @@ const Search = ({navigation}) => {
         }
     };
 
-    const getCocktails = (name) => {
-        if(name != ""){
-            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name)
+    const handleClick = (searchType, searchValue) => {
+        setSearchType(searchType);
+        setSearchValue(searchValue);
+    };
+
+    const getCocktails = (searchType, value) => {
+        if(searchType == "Name" && value != ""){
+            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + value)
                 .then(checkStatus)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     data.drinks = updateIsFavoriteValue(data.drinks);
                     return data.drinks;
                 })
                 .catch(error => {
                     console.log(error.message);
                 });
+        }
+        if(searchType == "Letter" && value != ""){
+            return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=' + value)
+                .then(checkStatus)
+                .then(response => response.json())
+                .then(data => {
+                    data.drinks = updateIsFavoriteValue(data.drinks);
+                    return data.drinks;
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
         }
     }
 
@@ -74,20 +84,26 @@ const Search = ({navigation}) => {
                         }
                     </TouchableOpacity>
                 </View>
+                <Text>Search by name</Text>
                 <SearchBar
                     placeholder="Tapez ici..."
                     onChangeText={updateCocktailName}
                     value={cocktailName}
                     searchIcon={null}
                 />
-                <Button title="Recherche" onPress={refetch}/>
+                <Button title="Recherche" onPress={() => handleClick("Name", cocktailName)}/>
+                <Text>Search by letter</Text>
+                <ScrollView
+                    horizontal={true}>
+                    {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("Letter", value)}/>)}
+                </ScrollView>
             </View>
             <View >
-                {cocktailsByName != null ?
+                {cocktails != null ?
                     isLoading ? <Text>Chargement...</Text> :
                         viewMode === 'list' ?
                             <FlatList
-                                data={cocktailsByName}
+                                data={cocktails}
                                 renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
                                 key={'_'}
                                 keyExtractor={(item, index) => "_"+String(index)}
@@ -96,15 +112,22 @@ const Search = ({navigation}) => {
                             />
                             :
                             <FlatList
-                                data={cocktailsByName}
+                                data={cocktails}
                                 renderItem={item => <CocktailListItem navigation={navigation} cocktail={item} mode={viewMode}/>}
                                 key={'#'}
                                 keyExtractor={(item, index) => "#"+String(index)}
                                 numColumns={3}
                                 style={styles.resultView}
                             />
+                            // <ScrollView>
+                            //     {cocktails.map((item, index) => <CocktailListItem key={"#"+String(index)} navigation={navigation} cocktail={item} mode={viewMode}/>)}
+                            // </ScrollView>
+                            // :
+                            // <ScrollView>
+                            //     {cocktails.map((item, index) => <CocktailListItem key={"#"+String(index)} navigation={navigation} cocktail={item} mode={viewMode}/>)}
+                            // </ScrollView>
                     :
-                    <Text>Faites une recherche par nom</Text>
+                    <Text>Do a research by name or by letter</Text>
                 }
             </View>
         </View>
