@@ -65,39 +65,49 @@ const Search = ({navigation}) => {
     return <>
         <View style={styles.view}>
             <View style={styles.researchView}>
-                <View style={{alignItems: 'flex-end'}}>
-                    <TouchableOpacity onPress={() => updateViewMode()}>
-                        {viewMode === 'grid' ?
-                            <Ionicons name={'list'}
-                                      size={30}
-                            /> :
-                            <Ionicons name={'grid'}
-                                      size={30}
-                            />
-                        }
+                <Text style={styles.text}>{t('search_cocktail')}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <SearchBar
+                        placeholder={t('searchbar_search_cocktail')}
+                        onChangeText={updateCocktailName}
+                        value={cocktailName}
+                        searchIcon={null}
+                        inputStyle={styles.searchBarInput}
+                        inputContainerStyle={styles.searchBarInputContainer}
+                        containerStyle={styles.searchBarContainer}
+                        leftIconContainerStyle={styles.searchBarLeftIcon}
+                        rightIconContainerStyle={styles.searchBarRightIcon}    
+                    />
+                    <TouchableOpacity onPress={() => handleClick("s", cocktailName)}>
+                        <Ionicons name={'search'} color={'#30343F'} size={35} />
                     </TouchableOpacity>
                 </View>
-                <Text>{t('search_cocktail')}</Text>
-                <SearchBar
-                    placeholder={t('searchbar_search_cocktail')}
-                    onChangeText={updateCocktailName}
-                    value={cocktailName}
-                    searchIcon={null}
-                />
-                <Button title={t('search_cocktail_name')} onPress={() => handleClick("s", cocktailName)}/>
-                <Text>{t('search_letter')}</Text>
+            </View>
+            <View style={styles.researchView}>
+                <Text style={styles.text}>{t('search_letter')}</Text>
                 <ScrollView horizontal={true}>
                     {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("f", value)}/>)}
                 </ScrollView>
             </View>
-            {isLoading ?
-                <ActivityIndicator />
+
+            {isLoading ?                 
+                <ActivityIndicator color={'#1985A1'} size={60} style={{marginTop: 50}}/> 
                 :
                 cocktails == null ?
-                    <Text>{t('searchbar_search_letter')}</Text> :
-                    <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
-                        {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
-                    </ScrollView>
+                    <Text style={{textAlign: 'center'}}>{t('searchbar_search_letter')}</Text> :
+                    <>
+                        <View style={{alignItems: 'flex-end'}}>
+                            <TouchableOpacity onPress={() => updateViewMode()}>
+                                {viewMode === 'grid' ?
+                                    <Ionicons name={'list'} color={'#30343F'} size={30} /> :
+                                    <Ionicons name={'grid'} color={'#30343F'} size={30} />
+                                }
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
+                            {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
+                        </ScrollView>
+                    </>
             }
         </View>
     </>;
@@ -105,29 +115,12 @@ const Search = ({navigation}) => {
 export default Search;
 
 const styles = StyleSheet.create({
-    container: {
-        borderWidth: 1,
-        borderRadius: 3,
-    },
-    input: {
-        borderWidth: 1,
-        width: '100%',
-        padding: 5
+    text: {
+        fontSize: 20,
+        fontWeight: '500',
     },
     view: {
         flex: 1
-    },
-    button: {
-        margin: 10,
-        borderWidth: 1,
-        borderRadius: 3,
-    },
-    containerBorder: {
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 3,
-        backgroundColor: '#C0C0C0',
-        margin: 10,
     },
     researchView: {
         margin: 5,
@@ -139,5 +132,30 @@ const styles = StyleSheet.create({
     },
     resultListScrollView:{
         flexDirection: 'column',
-    }
+    },
+    searchBarInput: {
+        backgroundColor: '#FAFAFF',
+    },
+    searchBarInputContainer:{
+        backgroundColor: '#FAFAFF',
+        borderColor: '#30343F',
+        borderWidth: 2 ,
+        borderRadius: 10,
+    },
+    searchBarContainer:{
+        backgroundColor: '#30343F',
+        borderWidth: 0,
+        borderColor: '#FAFAFF',    
+        borderRadius: 12,
+        padding: 0,
+        paddingBottom:2,
+        margin: 5,
+        width: '85%'
+    },
+    searchBarLeftIcon:{
+        backgroundColor: '#FAFAFF',
+    },
+    searchBarRightIcon:{
+        backgroundColor: '#FAFAFF',
+    },
 });

@@ -37,7 +37,6 @@ export default function FavoriteState(props) {
                         size={30}
                         onPress={() => update(!cocktail.isFavorite)}
             />
-            {/*<MaterialIcons.Button name={setIconName()} style={styles.icon} size={30} color={'red'} onPress={() => update(!isFavorite)} />*/}
         </View>
     );
 }

@@ -7,18 +7,10 @@ const windowDimensions = Dimensions.get('window');
 // const screenDimensions = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
-    photo: {
-        resizeMode: 'cover',
-        height: '100%',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     container: {
         borderColor: 'black',
         borderWidth: 1,
         borderRadius: 3,
-        backgroundColor: '#C0C0C0',
         margin: windowDimensions.width*1.5/100,
         width: windowDimensions.width*30/100,
         height: windowDimensions.width*30/100,
@@ -38,7 +30,6 @@ const styles = StyleSheet.create({
 });
 
 export default function CocktailListItem({navigation, cocktail, mode, previousScreen}) {
-    // cocktail = cocktail.item;
 
     if (mode === 'grid')
         return (
@@ -48,7 +39,7 @@ export default function CocktailListItem({navigation, cocktail, mode, previousSc
                         <View style={styles.cocktail_icon}>
                             <FavoriteState data={cocktail}/>
                             <View style={styles.cocktail_name}>
-                                <Text style={{color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.strDrink}</Text>
+                                <Text style={{color: '#fff', textAlign: 'center', fontSize: 14, fontWeight: 'bold'}}>{cocktail.strDrink}</Text>
                             </View>
                         </View>
                     </ImageBackground>
@@ -63,9 +54,6 @@ export default function CocktailListItem({navigation, cocktail, mode, previousSc
                     <Text style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{cocktail.strDrink}</Text>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <FavoriteState data={cocktail}/>
-                        {/* <MaterialIcons name={'more-vert'}
-                                       size={30}
-                        /> */}
                     </View>
                 </View>
             </TouchableOpacity>
