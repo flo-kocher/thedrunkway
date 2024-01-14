@@ -1,8 +1,8 @@
 import {
     Text,
     View,
-    StyleSheet, 
-    ScrollView, 
+    StyleSheet,
+    ScrollView,
     ActivityIndicator,
     Dimensions
 } from "react-native";
@@ -16,6 +16,7 @@ import { useQuery } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 
 const windowDimensions = Dimensions.get('window');
+import {useTranslation} from "react-i18next";
 
 // const getRandomCocktails = () => {
 //     return fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
@@ -51,6 +52,8 @@ const windowDimensions = Dimensions.get('window');
 // }
 
 const Home = ({navigation}) => {
+    const {t} = useTranslation();
+
     const refIngredientScrollView = useRef();
     const refGlassScrollView = useRef();
 
@@ -64,7 +67,6 @@ const Home = ({navigation}) => {
     const { AlcoholicIsLoading, data: alcoholic } = useQuery('alcoholic', () => getAlcoholic());
 
     const updateTextSearch = (text) => {
-        // refGlassScrollView.current.scrollTo({x: 0, y: 0, animated: false});
         setTextSearch(text);
     }
 
@@ -149,7 +151,7 @@ const Home = ({navigation}) => {
 
     return (
         <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, backgroundColor: '#FAFAFF', width: '100%'}}>
-            <Text style={styles.title}>Random cocktail selection</Text>
+            <Text style={styles.title}>{t('random_cocktails')}</Text>
             {!randomCocktails || isLoading ? (
                 <ActivityIndicator />
             ) : (
@@ -160,14 +162,14 @@ const Home = ({navigation}) => {
 
             <View style={{borderColor: '#30343F', borderWidth: 1, borderRadius: 45, margin: 5, marginVertical: 15}}/>
             <View style={styles.filters}>
-                <FilterBtn key={"CategoriesFilter"} searchBy={"Categories"} selected={selectedFilter == "c"} handleClick={() => selectFilter("c")}/>
-                <FilterBtn key={"AlcoholicTypesFilter"} searchBy={"Alcoholic types"} selected={selectedFilter == "a"} handleClick={() => selectFilter("a")}/>
-                <FilterBtn key={"IngredientsFilter"} searchBy={"Ingredients"} selected={selectedFilter == "i"} handleClick={() => selectFilter("i")}/>
-                <FilterBtn key={"GlassesFilter"} searchBy={"Glasses"} selected={selectedFilter == "g"} handleClick={() => selectFilter("g")}/>
+                <FilterBtn key={"CategoriesFilter"} searchBy={t('filter_category')} selected={selectedFilter == "c"} handleClick={() => selectFilter("c")}/>
+                <FilterBtn key={"AlcoholicTypesFilter"} searchBy={t('filter_alcoholic_type')} selected={selectedFilter == "a"} handleClick={() => selectFilter("a")}/>
+                <FilterBtn key={"IngredientsFilter"} searchBy={t('filter_ingredient')} selected={selectedFilter == "i"} handleClick={() => selectFilter("i")}/>
+                <FilterBtn key={"GlassesFilter"} searchBy={t('filter_glass')} selected={selectedFilter == "g"} handleClick={() => selectFilter("g")}/>
             </View>
 
             <SearchBar
-                placeholder="Filter the list here..."
+                placeholder={t('searchbar_filter')}
                 onChangeText={updateTextSearch}
                 value={textSearch}
                 inputStyle={styles.searchBarInput}

@@ -4,7 +4,7 @@ import {
     StyleSheet,
     ScrollView,
     Button,
-    TouchableOpacity, 
+    TouchableOpacity,
     ActivityIndicator
 } from "react-native";
 import React, {useState} from "react";
@@ -15,8 +15,11 @@ import CocktailListItem from '../components/CocktailListItem';
 import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
 import { Ionicons } from "@expo/vector-icons";
 import LetterBtn from "../components/LetterBtn";
+import {useTranslation} from "react-i18next";
 
 const Search = ({navigation}) => {
+    const {t} = useTranslation();
+
     // console.log(navigation, 'search')
     const queryClient = useQueryClient();
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -62,10 +65,10 @@ const Search = ({navigation}) => {
     return <>
         <View style={styles.view}>
             <View style={styles.researchView}>
-                <Text style={styles.text}>Search by name</Text>
+                <Text style={styles.text}>{t('search_cocktail')}</Text>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <SearchBar
-                        placeholder="Enter a cocktail name..."
+                        placeholder={t('searchbar_search_cocktail')}
                         onChangeText={updateCocktailName}
                         value={cocktailName}
                         searchIcon={null}
@@ -81,7 +84,7 @@ const Search = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.researchView}>
-                <Text style={styles.text}>Search by letter</Text>
+                <Text style={styles.text}>{t('search_letter')}</Text>
                 <ScrollView horizontal={true}>
                     {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("f", value)}/>)}
                 </ScrollView>
@@ -91,7 +94,7 @@ const Search = ({navigation}) => {
                 <ActivityIndicator color={'#1985A1'} size={60} style={{marginTop: 50}}/> 
                 :
                 cocktails == null ?
-                    <Text style={{textAlign: 'center'}}>Do a research by name or by letter</Text> :
+                    <Text style={{textAlign: 'center'}}>{t('searchbar_search_letter')}</Text> :
                     <>
                         <View style={{alignItems: 'flex-end'}}>
                             <TouchableOpacity onPress={() => updateViewMode()}>

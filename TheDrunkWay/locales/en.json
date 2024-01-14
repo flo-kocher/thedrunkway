@@ -3,5 +3,18 @@
   "search":  "Search",
   "favorites": "Favorites",
   "settings": "Settings",
-  "instructions": ""
+  "random_cocktails": "Random cocktails selection",
+  "filter_alcoholic_type": "Alcoholic types",
+  "filter_category": "Categories",
+  "filter_ingredient": "Ingredients",
+  "filter_glass": "Glasses",
+  "searchbar_filter": "Filter the list here...",
+  "search_cocktail": "Search by name",
+  "searchbar_search_cocktail": "Enter a cocktail...",
+  "search_letter": "Search by letter",
+  "searchbar_search_letter": "Do a research by name or by letter",
+  "ingredients": "Ingredients",
+  "instructions": "Instructions",
+  "change_language": "Change language",
+  "favorite_cocktails": "My favorite cocktails"
 }

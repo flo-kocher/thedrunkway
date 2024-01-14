@@ -33,18 +33,23 @@ const img_example = {
 };
 
 function Settings() {
+    const {t} = useTranslation();
+
     const changeLng = lng => {
         i18next.changeLanguage(lng);
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <FlatList data={Object.keys(languageResources)} renderItem={({item}) => (
-                <TouchableOpacity
-                onPress={() => changeLng(item)}>
-                <Text>{languagesList[item].nativeName}</Text>
-                </TouchableOpacity>
-            )}/>
+        <View style={{flex: 1}}>
+            <Text style={{paddingBottom: 10}}>{t('change_language')}</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <FlatList data={Object.keys(languageResources)} renderItem={({item}) => (
+                    <TouchableOpacity
+                        onPress={() => changeLng(item)}>
+                        <Text>{languagesList[item].nativeName}</Text>
+                    </TouchableOpacity>
+                )}/>
+            </View>
         </View>
     );
 }
@@ -103,7 +108,7 @@ export default function App() {
                 <NavigationContainer>
                     <Stack.Navigator>
                         <Stack.Screen name="Root" component={Root} options={{headerShown: false}}/>
-                        <Stack.Screen name="CategoriesSearchResult" component={CategoriesSearchResult} />
+                        <Stack.Screen name="CategoriesSearchResult" component={CategoriesSearchResult} options={{headerTitle: ''}}/>
                         <Stack.Screen name="Cocktail" component={Cocktail} />
                     </Stack.Navigator>
                 </NavigationContainer>

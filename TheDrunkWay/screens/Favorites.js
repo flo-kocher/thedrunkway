@@ -1,12 +1,14 @@
 import {
     StyleSheet,
     View,
-    Button,
+    Text, ActivityIndicator, ScrollView, TouchableOpacity,
 } from "react-native";
 import React, {useState} from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import FavoritesDisplay from "./FavoritesDisplay";
-import {clearStorage, getAllCocktails} from "../utils/asyncStorageCalls";
+import {getAllCocktails} from "../utils/asyncStorageCalls";
+import CocktailListItem from "../components/CocktailListItem";
+import {Ionicons} from "@expo/vector-icons";
+import {useTranslation} from "react-i18next";
 
 const value = {
     name: "Florentin Kocher",
@@ -14,17 +16,31 @@ const value = {
 };
 
 function SetupFavorites({ navigation }) {
+    const {t} = useTranslation();
 
     const [cocktailsData, setCocktailsData] = useState([]);
+    const [viewMode, setViewMode] = useState("grid");
+
+    const updateViewMode = () => {
+        if(viewMode === 'grid') {
+            setViewMode('list');
+        } else {
+            setViewMode('grid')
+        }
+    };
 
     const readItemsFromStorage = async () => {
         const items = await getAllCocktails();
+        // A l'affichage des favoris, on met les valuers isFavorite à true, parce que en
+        // storage, elles sont stockées à false
+        items.forEach((item) =>
+            item.isFavorite = true
+        )
         setCocktailsData(items);
     };
 
     useFocusEffect(
         React.useCallback(() => {
-            console.log('useFocusEffect')
             readItemsFromStorage();
 
             return () => {
@@ -34,23 +50,50 @@ function SetupFavorites({ navigation }) {
 
     return (
         <View style={styles.view}>
-            <View style={styles.researchView}>
-                <Button title={'Clear storage'} onPress={() => clearStorage()}/>
-                <Button title={'Print all cocktails'} onPress={() => getAllCocktails()}/>
+            <View style={{alignItems: 'flex-end', margin: 5, marginBottom: 10}}>
+                <TouchableOpacity onPress={() => updateViewMode()}>
+                    {viewMode === 'grid' ?
+                        <Ionicons name={'list'}
+                                  size={30}
+                        /> :
+                        <Ionicons name={'grid'}
+                                  size={30}
+                        />
+                    }
+                </TouchableOpacity>
             </View>
-            <FavoritesDisplay cocktailsData={cocktailsData}/>
+            <ScrollView>
+                {/* Utiliser ces boutons pour clear/print les cocktails en favoris */}
+                {/*<View style={styles.researchView}>*/}
+                {/*    <Button title={'Clear storage'} onPress={() => clearStorage()}/>*/}
+                {/*    <Button title={'Print all cocktails'} onPress={() => getAllCocktails()}/>*/}
+                {/*</View>*/}
+                <Text>{t('favorite_cocktails')}</Text>
+                {!cocktailsData ? (
+                    <ActivityIndicator />
+                ) : (
+                    <View style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap'}}
+                    >
+                        <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
+                            {cocktailsData.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode}/>)}
+                        </ScrollView>
+                    </View>
+                )}
+            </ScrollView>
         </View>
     );
 }
 
-const Search = ({navigation}) => {
+const Favorites = ({navigation}) => {
 
     return <>
-        <SetupFavorites/>
+        <SetupFavorites navigation={navigation}/>
     </>;
 };
 
-export default Search;
+export default Favorites;
 
 const styles = StyleSheet.create({
     container: {
@@ -63,7 +106,6 @@ const styles = StyleSheet.create({
         padding: 5
     },
     view: {
-        margin: 5,
         flex: 1
     },
     button: {
@@ -80,6 +122,13 @@ const styles = StyleSheet.create({
     },
     researchView: {
         marginBottom: 5
+    },
+    resultGridScrollView:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    resultListScrollView:{
+        flexDirection: 'column',
     },
     resultView: {
         // width: '100%',

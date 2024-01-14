@@ -3,5 +3,18 @@
   "search":  "Rechercher",
   "favorites": "Favoris",
   "settings": "Paramètres",
-  "instructions": ""
+  "random_cocktails": "Sélection de cocktails aléatoires",
+  "filter_alcoholic_type": "Types d'alcool",
+  "filter_category": "Catégories",
+  "filter_ingredient": "Ingrédients",
+  "filter_glass": "Verres",
+  "searchbar_filter": "Filtrer la liste ici...",
+  "search_cocktail": "Recherche par nom",
+  "searchbar_search_cocktail": "Entrez un cocktail...",
+  "search_letter": "Recherche par lettre",
+  "searchbar_search_letter": "Faites une recherche par nom ou par lettre",
+  "ingredients": "Ingrédients",
+  "instructions": "Instructions",
+  "change_language": "Changer la langue",
+  "favorite_cocktails": "Mes cocktails favoris"
 }
