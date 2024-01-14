@@ -81,13 +81,19 @@ function Root() {
 
                     // You can return any component that you like here!
                     if (ionicons) {
-                        return <Ionicons name={iconName} size={size} color={color} />;
+                        return <Ionicons name={iconName} size={size} color={'#C1666B'} />;
                     } else {
-                        return <MaterialIcons name={iconName} size={size} color={color} />;
+                        return <MaterialIcons name={iconName} size={size} color={'#C1666B'} />;
                     }
                 },
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: '#C1666B',
+                tabBarInactiveTintColor: '#30343F',
+                tabBarStyle: {
+                    backgroundColor: '#FAFAFF'
+                },
+                headerStyle: {
+                    backgroundColor: '#FAFAFF'
+                }
             })}
         >
             <Tab.Screen name={t('home')} component={Home} />
@@ -101,7 +107,7 @@ function Root() {
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1, backgroundColor: '#FAFAFF'}}>
                 <NavigationContainer>
                     <Stack.Navigator>
                         <Stack.Screen name="Root" component={Root} options={{headerShown: false}}/>

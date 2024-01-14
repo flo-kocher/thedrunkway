@@ -1,8 +1,8 @@
 import {
     Text,
     View,
-    StyleSheet, 
-    ScrollView, 
+    StyleSheet,
+    ScrollView,
     ActivityIndicator,
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
@@ -63,7 +63,7 @@ const Home = ({navigation}) => {
         refGlassScrollView.current.scrollTo({x: 0, y: 0, animated: false});
         setGlassSearch(text);
     }
-    
+
     const updateIngredientSearch = (text) => {
         refIngredientScrollView.current.scrollTo({x: 0, y: 0, animated: false});
         setIngredientSearch(text);
@@ -144,8 +144,8 @@ const Home = ({navigation}) => {
     }, []);
 
     return (
-        <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0}}>
-            <Text>Random cocktail selection</Text>
+        <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, backgroundColor: '#FAFAFF'}}>
+            <Text style={styles.text}>Random cocktail selection</Text>
             {!randomCocktails || isLoading ? (
                 <ActivityIndicator />
             ) : (
@@ -158,32 +158,32 @@ const Home = ({navigation}) => {
             )}
 
             {/* <ScrollView> */}
-                <Text>Cocktails by alcoholic type</Text>
+                <Text style={styles.text}>Cocktails by alcoholic type</Text>
                 {
-                    !alcoholic || AlcoholicIsLoading ? 
+                    !alcoholic || AlcoholicIsLoading ?
                     <ActivityIndicator /> :
                     <ScrollView horizontal={true}>
                         {alcoholic.map((alcohol, index) => <RectangleBtn key={index} style={styles.text} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
                     </ScrollView>
                 }
 
-                <Text>Cocktails by category</Text>
+                <Text style={styles.text}>Cocktails by category</Text>
                 {
-                    !categories || CategoryIsLoading ? 
+                    !categories || CategoryIsLoading ?
                     <ActivityIndicator /> :
                     <ScrollView horizontal={true} persistentScrollbar={true}>
                         {categories.map((category, index) => <RectangleBtn key={index} style={styles.text} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
                     </ScrollView>
                 }
 
-                <Text>Cocktails by ingredient</Text> 
+                <Text style={styles.text}>Cocktails by ingredient</Text>
                 <SearchBar
                     placeholder="Filter ingredients here..."
                     onChangeText={updateIngredientSearch}
                     value={ingredientSearch}
                 />
                 {
-                    !ingredients || IngredientIsLoading ? 
+                    !ingredients || IngredientIsLoading ?
                     <ActivityIndicator /> :
                     ingredientSearch == "" ?
                         <ScrollView ref={refIngredientScrollView} horizontal={true} persistentScrollbar={true}>
@@ -194,14 +194,14 @@ const Home = ({navigation}) => {
                             {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(ingredientSearch.toLowerCase())).map((ingredient, index) => <RectangleBtn key={index} style={styles.text} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
                         </ScrollView>
                 }
-                <Text>Cocktails by glass</Text>
+                <Text style={styles.text}>Cocktails by glass</Text>
                 <SearchBar
                     placeholder="Filter glasses here..."
                     onChangeText={updateGlassSearch}
                     value={glassSearch}
                 />
                 {
-                    !glasses || GlassIsLoading ? 
+                    !glasses || GlassIsLoading ?
                     <ActivityIndicator /> :
                     glassSearch == "" ?
                         <ScrollView ref={refGlassScrollView} horizontal={true} showsHorizontalScrollIndicator={true} persistentScrollbar={true}>
@@ -223,6 +223,9 @@ const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
         borderRadius: 3,
+    },
+    text: {
+        color: '#30343F',
     },
     input: {
         borderWidth: 1,
