@@ -1,8 +1,8 @@
 import {
     Text,
     View,
-    StyleSheet, 
-    ScrollView, 
+    StyleSheet,
+    ScrollView,
     ActivityIndicator,
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
@@ -12,6 +12,7 @@ import checkStatus from "../utils/checkStatus";
 import RectangleBtn from "../components/RectangleBtn";
 import { useQuery } from 'react-query';
 import { SearchBar } from '@rneui/themed';
+import {useTranslation} from "react-i18next";
 
 // const getRandomCocktails = () => {
 //     return fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
@@ -47,6 +48,8 @@ import { SearchBar } from '@rneui/themed';
 // }
 
 const Home = ({navigation}) => {
+    const {t} = useTranslation();
+
     const refIngredientScrollView = useRef();
     const refGlassScrollView = useRef();
 
@@ -63,7 +66,7 @@ const Home = ({navigation}) => {
         refGlassScrollView.current.scrollTo({x: 0, y: 0, animated: false});
         setGlassSearch(text);
     }
-    
+
     const updateIngredientSearch = (text) => {
         refIngredientScrollView.current.scrollTo({x: 0, y: 0, animated: false});
         setIngredientSearch(text);
@@ -145,7 +148,7 @@ const Home = ({navigation}) => {
 
     return (
         <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0}}>
-            <Text>Random cocktail selection</Text>
+            <Text>{t('top_cocktails')}</Text>
             {!randomCocktails || isLoading ? (
                 <ActivityIndicator />
             ) : (
@@ -158,32 +161,32 @@ const Home = ({navigation}) => {
             )}
 
             {/* <ScrollView> */}
-                <Text>Cocktails by alcoholic type</Text>
+                <Text>{t('filter_alcoholic_type')}</Text>
                 {
-                    !alcoholic || AlcoholicIsLoading ? 
+                    !alcoholic || AlcoholicIsLoading ?
                     <ActivityIndicator /> :
                     <ScrollView horizontal={true}>
                         {alcoholic.map((alcohol, index) => <RectangleBtn key={index} style={styles.text} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
                     </ScrollView>
                 }
 
-                <Text>Cocktails by category</Text>
+                <Text>{t('filter_category')}</Text>
                 {
-                    !categories || CategoryIsLoading ? 
+                    !categories || CategoryIsLoading ?
                     <ActivityIndicator /> :
                     <ScrollView horizontal={true} persistentScrollbar={true}>
                         {categories.map((category, index) => <RectangleBtn key={index} style={styles.text} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
                     </ScrollView>
                 }
 
-                <Text>Cocktails by ingredient</Text> 
+                <Text>{t('filter_ingredient')}</Text>
                 <SearchBar
-                    placeholder="Filter ingredients here..."
+                    placeholder={t('searchbar_filterby_ingredients')}
                     onChangeText={updateIngredientSearch}
                     value={ingredientSearch}
                 />
                 {
-                    !ingredients || IngredientIsLoading ? 
+                    !ingredients || IngredientIsLoading ?
                     <ActivityIndicator /> :
                     ingredientSearch == "" ?
                         <ScrollView ref={refIngredientScrollView} horizontal={true} persistentScrollbar={true}>
@@ -194,14 +197,14 @@ const Home = ({navigation}) => {
                             {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(ingredientSearch.toLowerCase())).map((ingredient, index) => <RectangleBtn key={index} style={styles.text} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
                         </ScrollView>
                 }
-                <Text>Cocktails by glass</Text>
+                <Text>{t('filter_glass')}</Text>
                 <SearchBar
-                    placeholder="Filter glasses here..."
+                    placeholder={t('searchbar_filterby_glass')}
                     onChangeText={updateGlassSearch}
                     value={glassSearch}
                 />
                 {
-                    !glasses || GlassIsLoading ? 
+                    !glasses || GlassIsLoading ?
                     <ActivityIndicator /> :
                     glassSearch == "" ?
                         <ScrollView ref={refGlassScrollView} horizontal={true} showsHorizontalScrollIndicator={true} persistentScrollbar={true}>

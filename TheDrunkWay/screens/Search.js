@@ -4,7 +4,7 @@ import {
     StyleSheet,
     ScrollView,
     Button,
-    TouchableOpacity, 
+    TouchableOpacity,
     ActivityIndicator
 } from "react-native";
 import React, {useState} from "react";
@@ -15,8 +15,11 @@ import CocktailListItem from '../components/CocktailListItem';
 import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
 import { Ionicons } from "@expo/vector-icons";
 import LetterBtn from "../components/LetterBtn";
+import {useTranslation} from "react-i18next";
 
 const Search = ({navigation}) => {
+    const {t} = useTranslation();
+
     // console.log(navigation, 'search')
     const queryClient = useQueryClient();
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -74,24 +77,24 @@ const Search = ({navigation}) => {
                         }
                     </TouchableOpacity>
                 </View>
-                <Text>Search by name</Text>
+                <Text>{t('search_cocktail')}</Text>
                 <SearchBar
-                    placeholder="Enter a cocktail name..."
+                    placeholder={t('searchbar_search_cocktail')}
                     onChangeText={updateCocktailName}
                     value={cocktailName}
                     searchIcon={null}
                 />
-                <Button title="Search" onPress={() => handleClick("s", cocktailName)}/>
-                <Text>Search by letter</Text>
+                <Button title={t('search_cocktail_name')} onPress={() => handleClick("s", cocktailName)}/>
+                <Text>{t('search_letter')}</Text>
                 <ScrollView horizontal={true}>
                     {letters.map((value, index) => <LetterBtn key={index} style={styles.text} letter={value} handleClick={() => handleClick("f", value)}/>)}
                 </ScrollView>
             </View>
-            {isLoading ?                 
-                <ActivityIndicator /> 
+            {isLoading ?
+                <ActivityIndicator />
                 :
                 cocktails == null ?
-                    <Text>Do a research by name or by letter</Text> :
+                    <Text>{t('searchbar_search_letter')}</Text> :
                     <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
                         {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
                     </ScrollView>
