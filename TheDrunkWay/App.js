@@ -35,18 +35,23 @@ const img_example = {
 };
 
 function Settings() {
+    const {t} = useTranslation();
+
     const changeLng = lng => {
         i18next.changeLanguage(lng);
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <FlatList data={Object.keys(languageResources)} renderItem={({item}) => (
-                <TouchableOpacity
-                onPress={() => changeLng(item)}>
-                <Text>{languagesList[item].nativeName}</Text>
-                </TouchableOpacity>
-            )}/>
+        <View style={{flex: 1}}>
+            <Text style={{paddingBottom: 10}}>{t('change_language')}</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <FlatList data={Object.keys(languageResources)} renderItem={({item}) => (
+                    <TouchableOpacity
+                        onPress={() => changeLng(item)}>
+                        <Text>{languagesList[item].nativeName}</Text>
+                    </TouchableOpacity>
+                )}/>
+            </View>
         </View>
     );
 }

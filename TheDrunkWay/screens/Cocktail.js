@@ -14,13 +14,16 @@ import {FontAwesome} from "@expo/vector-icons";
 import ShareLink from "../components/ShareLink";
 import { useQuery } from 'react-query';
 import checkStatus from "../utils/checkStatus";
+import {useTranslation} from "react-i18next";
 
 const Cocktail = ({navigation, route}) => {
+    const {t} = useTranslation();
+
     const cocktailInfo = route.params.cocktail;
     const { isLoading, data: cocktail } = useQuery(['cocktail', {cocktailID : cocktailInfo.idDrink}], () => getCocktail(cocktailInfo.idDrink));
     const [ingredientList, setIngredientsList] = useState([]);
     const [tags, setTags] = useState([]);
- 
+
     const getCocktail = (cocktailID) => {
         if(route.params.previousScreen == "CategoriesSearchResult"){
             return fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + cocktailID)
@@ -64,7 +67,7 @@ const Cocktail = ({navigation, route}) => {
                         <View style={styles.subtitle_view}>
                             <Text style={styles.subtitle1}>{cocktail.strAlcoholic} {cocktail.strCategory}</Text>
                         </View>
-                        <Text style={styles.subtitle2}>Ingredients</Text>
+                        <Text style={styles.subtitle2}>{t('ingredients')}</Text>
                         <View style={styles.ingredient_list}>
                             <ScrollView>
                                 {ingredientList.map((value, index) => <CocktailIngredientListItem key={index} data={value}/>)}
