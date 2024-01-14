@@ -48,7 +48,7 @@ function SetupFavorites({ navigation }) {
 
     return (
         <View style={styles.view}>
-            <View style={{alignItems: 'flex-end'}}>
+            <View style={{alignItems: 'flex-end', margin: 5, marginBottom: 10}}>
                 <TouchableOpacity onPress={() => updateViewMode()}>
                     {viewMode === 'grid' ?
                         <Ionicons name={'list'}
