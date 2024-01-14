@@ -1,6 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, Button, FlatList, Image, TouchableOpacity} from 'react-native';
-import { Card, Avatar, IconButton } from 'react-native-paper';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -86,8 +84,8 @@ function Root() {
                         return <MaterialIcons name={iconName} size={size} color={color} />;
                     }
                 },
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: '#C1666B',
+                tabBarInactiveTintColor: '#30343F',
             })}
         >
             <Tab.Screen name={t('home')} component={Home} />

@@ -7,7 +7,7 @@ export default function RectangleBtn({searchBy, handleClick}) {
     //  -> peut être les mettres dans des Flat pour que ça soit plus simple
 
     return (
-        <TouchableOpacity style={styles.tag} onPress={handleClick}>
+        <TouchableOpacity style={styles.button} onPress={handleClick}>
             <Text style={styles.text}>{searchBy}</Text>
         </TouchableOpacity>
     );
@@ -15,18 +15,20 @@ export default function RectangleBtn({searchBy, handleClick}) {
 
 const styles = StyleSheet.create({
     text: {
-        color: '#ffffff',
+        color: '#fafaff',
         fontSize: 15,
         textAlign: 'center',
     },
-    tag: {
+    button: {
         width: 100,
         height: 60,
-        padding: 10,
         margin: 10,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        backgroundColor: 'blue'
+        backgroundColor: '#30343F',
+        borderColor: '#1985A1',
+        borderWidth: 6,
+        elevation: 5, // Android
     },
 });

@@ -4,14 +4,18 @@ import {
     StyleSheet, 
     ScrollView, 
     ActivityIndicator,
+    Dimensions
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState, useRef } from "react";
 import CocktailListItem from "../components/CocktailListItem";
 import checkStatus from "../utils/checkStatus";
 import RectangleBtn from "../components/RectangleBtn";
+import FilterBtn from "../components/FilterBtn";
 import { useQuery } from 'react-query';
 import { SearchBar } from '@rneui/themed';
+
+const windowDimensions = Dimensions.get('window');
 
 // const getRandomCocktails = () => {
 //     return fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
@@ -50,8 +54,8 @@ const Home = ({navigation}) => {
     const refIngredientScrollView = useRef();
     const refGlassScrollView = useRef();
 
-    const [glassSearch, setGlassSearch] = useState("");
-    const [ingredientSearch, setIngredientSearch] = useState("");
+    const [textSearch, setTextSearch] = useState("");
+    const [selectedFilter, setSelectedFilter] = useState("c");
     const [isLoading, setLoading] = useState(true);
     const [randomCocktails, setRandomCocktails] = useState([]);
     const { GlassIsLoading, data: glasses } = useQuery('glasses', () => getGlasses());
@@ -59,15 +63,11 @@ const Home = ({navigation}) => {
     const { IngredientIsLoading, data: ingredients } = useQuery('ingredients', () => getIngredients());
     const { AlcoholicIsLoading, data: alcoholic } = useQuery('alcoholic', () => getAlcoholic());
 
-    const updateGlassSearch = (text) => {
-        refGlassScrollView.current.scrollTo({x: 0, y: 0, animated: false});
-        setGlassSearch(text);
+    const updateTextSearch = (text) => {
+        // refGlassScrollView.current.scrollTo({x: 0, y: 0, animated: false});
+        setTextSearch(text);
     }
-    
-    const updateIngredientSearch = (text) => {
-        refIngredientScrollView.current.scrollTo({x: 0, y: 0, animated: false});
-        setIngredientSearch(text);
-    }
+
 
     const getRandomCocktails = async (number) => {
         let randomCocktailsList = [];
@@ -139,80 +139,84 @@ const Home = ({navigation}) => {
         navigation.navigate("CategoriesSearchResult", {searchType, searchValue});
     }
 
+    const selectFilter = (filter) => {
+        setSelectedFilter(filter);
+    }
+
     useEffect(() => {
         getRandomCocktails(6);
     }, []);
 
     return (
-        <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0}}>
-            <Text>Random cocktail selection</Text>
+        <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, backgroundColor: '#FAFAFF', width: '100%'}}>
+            <Text style={styles.title}>Random cocktail selection</Text>
             {!randomCocktails || isLoading ? (
                 <ActivityIndicator />
             ) : (
-                <View style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap'}}
-                  >
+                <View style={styles.randomCocktails}>
                     {randomCocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={'grid'}/>)}
                 </View>
             )}
 
-            {/* <ScrollView> */}
-                <Text>Cocktails by alcoholic type</Text>
-                {
-                    !alcoholic || AlcoholicIsLoading ? 
-                    <ActivityIndicator /> :
-                    <ScrollView horizontal={true}>
-                        {alcoholic.map((alcohol, index) => <RectangleBtn key={index} style={styles.text} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
-                    </ScrollView>
-                }
+            <View style={{borderColor: '#30343F', borderWidth: 1, borderRadius: 45, margin: 5, marginVertical: 15}}/>
+            <View style={styles.filters}>
+                <FilterBtn key={"CategoriesFilter"} searchBy={"Categories"} selected={selectedFilter == "c"} handleClick={() => selectFilter("c")}/>
+                <FilterBtn key={"AlcoholicTypesFilter"} searchBy={"Alcoholic types"} selected={selectedFilter == "a"} handleClick={() => selectFilter("a")}/>
+                <FilterBtn key={"IngredientsFilter"} searchBy={"Ingredients"} selected={selectedFilter == "i"} handleClick={() => selectFilter("i")}/>
+                <FilterBtn key={"GlassesFilter"} searchBy={"Glasses"} selected={selectedFilter == "g"} handleClick={() => selectFilter("g")}/>
+            </View>
 
-                <Text>Cocktails by category</Text>
-                {
-                    !categories || CategoryIsLoading ? 
-                    <ActivityIndicator /> :
-                    <ScrollView horizontal={true} persistentScrollbar={true}>
-                        {categories.map((category, index) => <RectangleBtn key={index} style={styles.text} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
-                    </ScrollView>
-                }
-
-                <Text>Cocktails by ingredient</Text> 
-                <SearchBar
-                    placeholder="Filter ingredients here..."
-                    onChangeText={updateIngredientSearch}
-                    value={ingredientSearch}
-                />
-                {
-                    !ingredients || IngredientIsLoading ? 
-                    <ActivityIndicator /> :
-                    ingredientSearch == "" ?
-                        <ScrollView ref={refIngredientScrollView} horizontal={true} persistentScrollbar={true}>
-                            {ingredients.map((ingredient, index) => <RectangleBtn key={index} style={styles.text} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
-                        </ScrollView>
-                        :
-                        <ScrollView ref={refIngredientScrollView} horizontal={true} persistentScrollbar={true}>
-                            {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(ingredientSearch.toLowerCase())).map((ingredient, index) => <RectangleBtn key={index} style={styles.text} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
-                        </ScrollView>
-                }
-                <Text>Cocktails by glass</Text>
-                <SearchBar
-                    placeholder="Filter glasses here..."
-                    onChangeText={updateGlassSearch}
-                    value={glassSearch}
-                />
-                {
-                    !glasses || GlassIsLoading ? 
-                    <ActivityIndicator /> :
-                    glassSearch == "" ?
-                        <ScrollView ref={refGlassScrollView} horizontal={true} showsHorizontalScrollIndicator={true} persistentScrollbar={true}>
-                            {glasses.map((glass, index) => <RectangleBtn key={index} style={styles.text} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
-                        </ScrollView>
-                        :
-                        <ScrollView ref={refGlassScrollView} horizontal={true} showsHorizontalScrollIndicator={true} persistentScrollbar={true}>
-                            {glasses.filter((glass) => glass.strGlass.toLowerCase().includes(glassSearch.toLowerCase())).map((glass, index) => <RectangleBtn key={index} style={styles.text} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
-                        </ScrollView>
-                }
-            {/* </ScrollView> */}
+            <SearchBar
+                placeholder="Filter the list here..."
+                onChangeText={updateTextSearch}
+                value={textSearch}
+                inputStyle={styles.searchBarInput}
+                inputContainerStyle={styles.searchBarInputContainer}
+                containerStyle={styles.searchBarContainer}
+                leftIconContainerStyle={styles.searchBarLeftIcon}
+                rightIconContainerStyle={styles.searchBarRightIcon}
+            />
+            {selectedFilter == "a" ? 
+            
+                !alcoholic || AlcoholicIsLoading ? 
+                <ActivityIndicator /> :
+                <View style={styles.filterGridScrollView}>
+                    {alcoholic.map((alcohol, index) => <RectangleBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
+                </View>
+            
+            : selectedFilter == "c" ?
+            
+                !categories || CategoryIsLoading ? 
+                <ActivityIndicator /> :
+                <View style={styles.filterGridScrollView}>
+                    {categories.map((category, index) => <RectangleBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
+                </View>
+            
+            : selectedFilter == "i" ? 
+            
+                !ingredients || IngredientIsLoading ? 
+                <ActivityIndicator /> :
+                textSearch == "" ?
+                    <View ref={refIngredientScrollView} style={styles.filterGridScrollView}>
+                        {ingredients.map((ingredient, index) => <RectangleBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
+                    </View>
+                    :
+                    <View ref={refIngredientScrollView} style={styles.filterGridScrollView}>
+                        {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(textSearch.toLowerCase())).map((ingredient, index) => <RectangleBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
+                    </View>
+            : 
+            
+                !glasses || GlassIsLoading ? 
+                <ActivityIndicator /> :
+                textSearch == "" ?
+                    <View ref={refGlassScrollView} style={styles.filterGridScrollView}>
+                        {glasses.map((glass, index) => <RectangleBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
+                    </View>
+                    :
+                    <View ref={refGlassScrollView} style={styles.filterGridScrollView}>
+                        {glasses.filter((glass) => glass.strGlass.toLowerCase().includes(textSearch.toLowerCase())).map((glass, index) => <RectangleBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
+                    </View>
+            }
         </ScrollView>
     );
 };
@@ -220,32 +224,46 @@ const Home = ({navigation}) => {
 export default Home;
 
 const styles = StyleSheet.create({
-    container: {
-        borderWidth: 1,
-        borderRadius: 3,
-    },
-    input: {
-        borderWidth: 1,
-        width: '100%',
-        padding: 5
-    },
-    view: {
+    title: {
+        fontSize: 20,
+        fontWeight: '500',
+        color: '#30343F',
         margin: 5,
-        flex: 1
     },
-    button: {
-        margin: 10,
-        borderWidth: 1,
-        borderRadius: 3,
+    randomCocktails: {
+        flexDirection: 'row',
+        flexWrap:'wrap',
+        // marginBottom: 15,
     },
-    containerBorder: {
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 3,
-        backgroundColor: '#C0C0C0',
-        margin: 10,
+    filters:{
+        flexDirection: 'row',
     },
-    researchView: {
-        marginBottom: 5
+    filterGridScrollView:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    searchBarInput: {
+        backgroundColor: '#FAFAFF',
+    },
+    searchBarInputContainer:{
+        backgroundColor: '#FAFAFF',
+        borderColor: '#30343F',
+        borderWidth: 2 ,
+        borderRadius: 10,
+    },
+    searchBarContainer:{
+        backgroundColor: '#30343F',
+        borderWidth: 0,
+        borderColor: '#FAFAFF',    
+        borderRadius: 12,
+        padding: 0,
+        paddingBottom:2,
+        margin: 5
+    },
+    searchBarLeftIcon:{
+        backgroundColor: '#FAFAFF',
+    },
+    searchBarRightIcon:{
+        backgroundColor: '#FAFAFF',
     },
 });
