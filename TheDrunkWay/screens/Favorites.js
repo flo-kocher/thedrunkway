@@ -8,6 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {getAllCocktails} from "../utils/asyncStorageCalls";
 import CocktailListItem from "../components/CocktailListItem";
 import {Ionicons} from "@expo/vector-icons";
+import {useTranslation} from "react-i18next";
 
 const value = {
     name: "Florentin Kocher",
@@ -15,6 +16,7 @@ const value = {
 };
 
 function SetupFavorites({ navigation }) {
+    const {t} = useTranslation();
 
     const [cocktailsData, setCocktailsData] = useState([]);
     const [viewMode, setViewMode] = useState("grid");
@@ -66,7 +68,7 @@ function SetupFavorites({ navigation }) {
                 {/*    <Button title={'Clear storage'} onPress={() => clearStorage()}/>*/}
                 {/*    <Button title={'Print all cocktails'} onPress={() => getAllCocktails()}/>*/}
                 {/*</View>*/}
-                <Text>My favorite cocktails</Text>
+                <Text>{t('favorite_cocktails')}</Text>
                 {!cocktailsData ? (
                     <ActivityIndicator />
                 ) : (
