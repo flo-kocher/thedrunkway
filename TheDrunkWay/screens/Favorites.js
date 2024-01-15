@@ -68,7 +68,6 @@ function SetupFavorites({ navigation }) {
                 {/*    <Button title={'Clear storage'} onPress={() => clearStorage()}/>*/}
                 {/*    <Button title={'Print all cocktails'} onPress={() => getAllCocktails()}/>*/}
                 {/*</View>*/}
-                <Text>{t('favorite_cocktails')}</Text>
                 {!cocktailsData ? (
                     <ActivityIndicator />
                 ) : (

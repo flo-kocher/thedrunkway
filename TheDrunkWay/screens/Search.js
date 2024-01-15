@@ -3,24 +3,23 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    Button,
     TouchableOpacity,
     ActivityIndicator
 } from "react-native";
 import React, {useState} from "react";
 import checkStatus from "../utils/checkStatus";
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import CocktailListItem from '../components/CocktailListItem';
 import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
 import { Ionicons } from "@expo/vector-icons";
 import LetterBtn from "../components/LetterBtn";
 import {useTranslation} from "react-i18next";
+import { useFocusEffect } from '@react-navigation/native';
 
 const Search = ({navigation}) => {
     const {t} = useTranslation();
 
-    // console.log(navigation, 'search')
     const queryClient = useQueryClient();
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     const [cocktailName, setCocktailName] = useState("");
@@ -61,6 +60,27 @@ const Search = ({navigation}) => {
                 })
         }
     }
+
+    const updateCocktailList = useMutation(() => updateIsFavoriteValue(cocktails), {
+        onSuccess: updatedList => {
+            console.log(searchType, searchValue)
+            queryClient.setQueryData(
+                ['cocktails', {searchType: searchType, searchValue: searchValue}],
+                updatedList
+            )
+        }
+    });
+
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log('enter focus effect');
+            if(cocktails){
+                updateCocktailList.mutate();
+            }
+
+            return () => {};
+        }, [])
+    )
 
     return <>
         <View style={styles.view}>

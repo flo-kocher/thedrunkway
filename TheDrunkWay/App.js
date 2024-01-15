@@ -95,7 +95,7 @@ function Root() {
         >
             <Tab.Screen name={t('home')} component={Home} />
             <Tab.Screen name={t('search')} component={Search} />
-            <Tab.Screen name={t('favorites')} component={Favorites} />
+            <Tab.Screen name={t('favorites')} component={Favorites} options={{headerTitle: t('favorite_cocktails')}}/>
             <Tab.Screen name={t('settings')} component={Settings} />
         </Tab.Navigator>
     )
@@ -108,7 +108,7 @@ export default function App() {
                 <NavigationContainer>
                     <Stack.Navigator>
                         <Stack.Screen name="Root" component={Root} options={{headerShown: false}}/>
-                        <Stack.Screen name="CategoriesSearchResult" component={CategoriesSearchResult} options={{headerTitle: ''}}/>
+                        <Stack.Screen name="CategoriesSearchResult" component={CategoriesSearchResult} options={({ route }) => ({ title: route.params.name })}/>
                         <Stack.Screen name="Cocktail" component={Cocktail} />
                     </Stack.Navigator>
                 </NavigationContainer>

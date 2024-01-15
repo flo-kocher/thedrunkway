@@ -31,18 +31,19 @@ export default function FavoriteState(props) {
     }
 
     return (
-        <View style={styles.btn}>
-            <IconButton icon={setIconNameHeart()}
-                        iconColor={'red'}
-                        size={30}
-                        onPress={() => update(!cocktail.isFavorite)}
-            />
-        </View>
+        <IconButton icon={setIconNameHeart()}
+                    iconColor={'red'}
+                    size={30}
+                    onPress={() => update(!cocktail.isFavorite)}
+                    style={styles.btn}
+                
+        />
     );
 }
 
 const styles = StyleSheet.create({
     btn: {
-        alignItems: 'flex-end',
+        alignSelf: 'flex-end',
+        margin: 0,
     },
 });

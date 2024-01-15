@@ -45,19 +45,16 @@ const CategoriesSearchResult = ({navigation, route}) => {
 
     return <>
         <View style={styles.view}>
-            <View style={styles.titleView}>
-                <Text style={styles.title}>{route.params.searchValue}</Text>
-                <TouchableOpacity onPress={() => updateViewMode()}>
-                    {viewMode === 'grid' ?
-                        <Ionicons name={'list'}
-                                    size={30}
-                        /> :
-                        <Ionicons name={'grid'}
-                                    size={30}
-                        />
-                    }
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.switchButton} onPress={() => updateViewMode()}>
+                {viewMode === 'grid' ?
+                    <Ionicons name={'list'}
+                                size={30}
+                    /> :
+                    <Ionicons name={'grid'}
+                                size={30}
+                    />
+                }
+            </TouchableOpacity>
             {isLoading ?                 
                 <ActivityIndicator /> 
                 :
@@ -75,13 +72,12 @@ export default CategoriesSearchResult;
 
 const styles = StyleSheet.create({
     view: {
-        flex: 1
+        flex: 1,
+        width: '100%',
     },
-    titleView: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 5,
-        paddingHorizontal: 10
+    switchButton: {
+        alignSelf: 'flex-end',
+        margin: 5,
     }, 
     title: {
         fontSize: 24,

@@ -75,5 +75,7 @@ export const updateIsFavoriteValue = async (drinks) => {
     for (let i = 0; i < drinks.length; i++){
         drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
     }
+    console.log(drinks.map(cocktail => [cocktail.strDrink, cocktail.isFavorite]));
+
     return drinks;
 }
