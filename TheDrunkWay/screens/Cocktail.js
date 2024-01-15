@@ -5,9 +5,10 @@ import {
     Text,
     ImageBackground,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator, FlatList
 } from 'react-native';
 import CocktailIngredientListItem from "../components/CocktailIngredientListItem";
+import CocktailInstructionItem from "../components/CocktailInstructionItem";
 import {getIngredientList} from "../utils/cocktailGetters";
 import CocktailTag from "../components/CocktailTag";
 import {FontAwesome} from "@expo/vector-icons";
@@ -54,18 +55,33 @@ const Cocktail = ({navigation, route}) => {
             !cocktail || isLoading ?
             <ActivityIndicator/> :
             <ScrollView>
-                <View style={styles.more}>
-                    <ShareLink idDrink={cocktail.idDrink}/>
-                </View>
                 <View style={styles.view}>
                     <View style={styles.row_1}>
                         <ImageBackground source={{uri: cocktail.strDrinkThumb}} style={styles.img}>
+                            <View style={styles.more}>
+                                <ShareLink idDrink={cocktail.idDrink}/>
+                            </View>
                             <Text style={styles.title}>{cocktail.strDrink}</Text>
                         </ImageBackground>
                     </View>
                     <View style={styles.row_2}>
-                        <View style={styles.subtitle_view}>
-                            <Text style={styles.subtitle1}>{cocktail.strAlcoholic} {cocktail.strCategory}</Text>
+                        <View style={styles.subtitle_view1}>
+                            <View style={styles.subtitle_view_item}>
+                                <Text style={styles.subtitle1}>{t('alcoholic_type')}</Text>
+                                <Text>{cocktail.strAlcoholic}</Text>
+                            </View>
+                            <View style={styles.subtitle_view_item}>
+                                <Text style={styles.subtitle1}>{t('category')}</Text>
+                                <Text>{cocktail.strCategory}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.subtitle_view2}>
+                            <View style={styles.subtitle_view_item}>
+                                <View style={styles.subtitle_view_glass}>
+                                    <Text style={styles.subtitle1}>{t('glass')}</Text><FontAwesome style={styles.glass} name={'glass'}/>
+                                </View>
+                                <Text>{cocktail.strGlass}</Text>
+                            </View>
                         </View>
                         <Text style={styles.subtitle2}>{t('ingredients')}</Text>
                         <View style={styles.ingredient_list}>
@@ -75,16 +91,15 @@ const Cocktail = ({navigation, route}) => {
                         </View>
                     </View>
                     <View style={styles.row_3}>
-                        <Text style={styles.subtitle2}>Instructions</Text>
+                        <Text style={styles.subtitle2}>{t('instructions')}</Text>
                         <View style={styles.instructions}>
-                            <View style={{flex: 1, flexDirection: 'row'}}>
-                                {/* TODO: On peut adapter le logo en fonction du type (il ya des logos de martini, wine, water, mug ...*/}
-                                <FontAwesome name={'glass'} />
-                                <Text style={styles.text}>Served in a {cocktail.strGlass}</Text>
-                            </View>
-                            <Text style={styles.text}>
-                                {cocktail[t('strInstructions')] !== null ? cocktail[t('strInstructions')] : cocktail.strInstructions}
-                            </Text>
+                            <ScrollView>
+                                {
+                                    cocktail[t('strInstructions')] !== null ?
+                                        cocktail[t('strInstructions')].split('.').map((value, index) => <CocktailInstructionItem key={index} index={index} data={value}/>) :
+                                        cocktail.strInstructions.split('.').map((value, index) => <CocktailInstructionItem key={index} index={index} data={value}/>)
+                                }
+                            </ScrollView>
                         </View>
                     </View>
                     <View style={styles.row_4}>
@@ -118,23 +133,40 @@ const styles = StyleSheet.create({
         marginTop: 60,
         marginBottom: 5,
     },
-    subtitle_view: {
+    subtitle_view1: {
         marginTop: 20,
         marginBottom: 20,
-        marginEnd: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    subtitle_view2: {
+        marginTop: 10,
+        marginBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    subtitle_view_item: {
+        alignItems: 'center',
+    },
+    subtitle_view_glass: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     subtitle1: {
         fontWeight: 'bold',
-        fontSize: 30,
-        marginStart: 20,
+        fontSize: 17,
     },
     subtitle2: {
         fontWeight: 'bold',
         fontSize: 25,
-        marginStart: 5,
+        marginTop: 5,
+        marginStart: 10,
     },
     text: {
-        fontSize: 15,
+        fontSize: 17,
+    },
+    glass: {
+        marginStart: 3,
     },
     img: {
         flex: 1,
@@ -148,9 +180,9 @@ const styles = StyleSheet.create({
         // alignItems: 'flex-end',
     },
     ingredient_list: {
-        marginTop: 5,
-        marginBottom: 5,
-        marginStart: 20,
+        marginTop: 10,
+        marginBottom: 15,
+        marginStart: 30,
     },
     row_3: {
         flex: 3,
@@ -159,7 +191,7 @@ const styles = StyleSheet.create({
     instructions: {
         marginStart: 15,
         marginEnd: 15,
-        marginTop: 5,
+        marginTop: 10,
         marginBottom: 5,
     },
     row_4: {
