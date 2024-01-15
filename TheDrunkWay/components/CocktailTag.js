@@ -1,26 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 
 
 export default function CocktailTag({data}) {
 
-    const buttonClick = () => {
-        console.log('clicked on a tag');
-    }
-
     return (
-        <TouchableOpacity style={styles.tag}
-        onPress={buttonClick}>
-            <Text style={styles.text}>{data}</Text>
-        </TouchableOpacity>
+        <Text style={styles.tag}>{data}</Text>
     );
 }
 
 const styles = StyleSheet.create({
-    text: {
-        color: '#ffffff',
-        fontSize: 10,
-    },
     tag: {
         width: 120,
         height: 35,
@@ -29,6 +18,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 100,
-        backgroundColor: 'red'
-    },
+        backgroundColor: '#1985A1',
+        color: '#ffffff',
+        textAlign: 'center',
+        fontSize: 10,
+    }
 });

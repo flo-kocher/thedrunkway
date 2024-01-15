@@ -6,14 +6,22 @@ export default function CocktailIngredientListItem({data}) {
     let measure = data[1];
 
     return (
-        <View>
-            <Text style={styles.text}>{ingredient} {measure}</Text>
+        <View style={styles.view}>
+            <Text style={styles.ingredient}>{ingredient} : </Text>
+            <Text style={styles.measure}>{measure}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    text: {
-        fontSize: 20,
+    view: {
+        flexDirection: 'row',
     },
+    ingredient: {
+        fontSize: 17,
+        fontWeight: 'bold'
+    },
+    measure: {
+        fontSize: 17,
+    }
 });
