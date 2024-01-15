@@ -16,5 +16,6 @@
   "ingredients": "Ingrédients",
   "instructions": "Instructions",
   "change_language": "Changer la langue",
-  "favorite_cocktails": "Mes cocktails favoris"
+  "favorite_cocktails": "Mes cocktails favoris",
+  "strInstructions": "strInstructionsFR"
 }
