@@ -1,0 +1,21 @@
+{
+  "home": "Startseite",
+  "search":  "Suche",
+  "favorites": "Favoriten",
+  "settings": "Einstellungen",
+  "random_cocktails": "Zufällige Auswahl von Cocktails",
+  "filter_alcoholic_type": "Alkoholische Typen",
+  "filter_category": "Kategorien",
+  "filter_ingredient": "Zutaten",
+  "filter_glass": "Gläser",
+  "searchbar_filter": "Filtern Sie die Liste hier...",
+  "search_cocktail": "Suche nach Name",
+  "searchbar_search_cocktail": "Geben Sie einen Cocktail ein...",
+  "search_letter": "Suche nach Buchstabe",
+  "searchbar_search_letter": "Suche nach Namen oder nach Buchstaben",
+  "ingredients": "Zutaten",
+  "instructions": "Anleitungen",
+  "change_language": "Sprache ändern",
+  "favorite_cocktails": "Meine Lieblingscocktails",
+  "strInstructions": "strInstructionsDE"
+}

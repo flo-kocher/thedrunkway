@@ -82,7 +82,9 @@ const Cocktail = ({navigation, route}) => {
                                 <FontAwesome name={'glass'} />
                                 <Text style={styles.text}>Served in a {cocktail.strGlass}</Text>
                             </View>
-                            <Text style={styles.text}>{cocktail.strInstructions}</Text>
+                            <Text style={styles.text}>
+                                {cocktail[t('strInstructions')] !== null ? cocktail[t('strInstructions')] : cocktail.strInstructions}
+                            </Text>
                         </View>
                     </View>
                     <View style={styles.row_4}>
