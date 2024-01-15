@@ -9,11 +9,8 @@ const ShareLink = ({idDrink}) => {
         try {
             const result = await Share.share({
                 message:
-                    'Viens télécharge notre application ! TheDrunkWay sur le PlayStore ;). \n' +
+                    'Viens télécharger l\'application TheDrunkWay sur le PlayStore ! \n' +
                     'https://www.thecocktaildb.com/drink/'+idDrink,
-                // je crois pas utile le 'title', supposer être pour Android mais je le vois affiché nul part
-                title:
-                    'TheDrunkWay staff vous incite à ne pas consommer',
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
