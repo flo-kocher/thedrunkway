@@ -14,7 +14,7 @@ export default function RectangleBtn({searchBy, handleClick}) {
 const styles = StyleSheet.create({
     text: {
         color: '#fafaff',
-        fontSize: 15,
+        fontSize: 14,
         textAlign: 'center',
     },
     btn: {

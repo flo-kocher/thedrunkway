@@ -18,9 +18,6 @@ import {useTranslation} from "react-i18next";
 const Home = ({navigation}) => {
     const {t} = useTranslation();
 
-    const refIngredientScrollView = useRef();
-    const refGlassScrollView = useRef();
-
     const [textSearch, setTextSearch] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("c");
     const [isLoading, setLoading] = useState(true);
@@ -34,7 +31,6 @@ const Home = ({navigation}) => {
     const updateTextSearch = (text) => {
         setTextSearch(text);
     }
-
 
     const getRandomCocktails = async (number) => {
         let randomCocktailsList = [];
@@ -58,7 +54,9 @@ const Home = ({navigation}) => {
             .then(checkStatus)
             .then(response => response.json())
             .then(data => {
-                return data.drinks
+                return data.drinks.sort((a, b) =>
+                    a.strGlass > b.strGlass ? 1 : -1,
+                );
             })
             .catch(error => {
                 console.log(error.message);
@@ -70,7 +68,9 @@ const Home = ({navigation}) => {
             .then(checkStatus)
             .then(response => response.json())
             .then(data => {
-                return data.drinks
+                return data.drinks.sort((a, b) =>
+                    a.strCategory > b.strCategory ? 1 : -1,
+                );
             })
             .catch(error => {
                 console.log(error.message);
@@ -82,7 +82,9 @@ const Home = ({navigation}) => {
             .then(checkStatus)
             .then(response => response.json())
             .then(data => {
-                return data.drinks
+                return data.drinks.sort((a, b) =>
+                    a.strIngredient1 > b.strIngredient1 ? 1 : -1,
+                );
             })
             .catch(error => {
                 console.log(error.message);
@@ -94,9 +96,9 @@ const Home = ({navigation}) => {
             .then(checkStatus)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-
-                return data.drinks
+                return data.drinks.sort((a, b) =>
+                    a.strAlcoholic > b.strAlcoholic ? 1 : -1,
+                );
             })
             .catch(error => {
                 console.log(error.message);
@@ -104,7 +106,7 @@ const Home = ({navigation}) => {
     };
 
     const handleClick = (searchType, searchValue) => {
-        navigation.navigate("CategoriesSearchResult", {searchType, searchValue});
+        navigation.navigate("CategoriesSearchResult", {searchType, searchValue, name: searchValue});
     }
 
     const selectFilter = (filter) => {
@@ -134,7 +136,7 @@ const Home = ({navigation}) => {
                 </View>
             )}
 
-            <View style={{borderColor: '#30343F', borderWidth: 1, borderRadius: 45, margin: 5, marginVertical: 15}}/>
+            <View style={styles.separationBar}/>
             <View style={styles.filters}>
                 <FilterBtn key={"CategoriesFilter"} searchBy={t('filter_category')} selected={selectedFilter == "c"} handleClick={() => selectFilter("c")}/>
                 <FilterBtn key={"AlcoholicTypesFilter"} searchBy={t('filter_alcoholic_type')} selected={selectedFilter == "a"} handleClick={() => selectFilter("a")}/>
@@ -156,28 +158,38 @@ const Home = ({navigation}) => {
 
                 !alcoholic || AlcoholicIsLoading ?
                 <ActivityIndicator /> :
-                <View style={styles.filterGridScrollView}>
-                    {alcoholic.map((alcohol, index) => <RectangleBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
-                </View>
-
+                textSearch == "" ?
+                    <View style={styles.filterGridScrollView}>
+                        {alcoholic.map((alcohol, index) => <RectangleBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
+                    </View>
+                    :
+                    <View style={styles.filterGridScrollView}>
+                        {alcoholic.filter((alcohol) => alcohol.strAlcoholic.toLowerCase().includes(textSearch.toLowerCase())).map((alcohol, index) => <RectangleBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("i", alcohol.strAlcoholic)}/>)}
+                    </View>
+            
             : selectedFilter == "c" ?
 
                 !categories || CategoryIsLoading ?
                 <ActivityIndicator /> :
-                <View style={styles.filterGridScrollView}>
-                    {categories.map((category, index) => <RectangleBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
-                </View>
-
-            : selectedFilter == "i" ?
-
-                !ingredients || IngredientIsLoading ?
+                textSearch == "" ?
+                    <View style={styles.filterGridScrollView}>
+                        {categories.map((category, index) => <RectangleBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
+                    </View>
+                    :
+                    <View style={styles.filterGridScrollView}>
+                        {categories.filter((category) => category.strCategory.toLowerCase().includes(textSearch.toLowerCase())).map((category, index) => <RectangleBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("i", category.strCategory)}/>)}
+                    </View>
+            
+            : selectedFilter == "i" ? 
+            
+                !ingredients || IngredientIsLoading ? 
                 <ActivityIndicator /> :
                 textSearch == "" ?
-                    <View ref={refIngredientScrollView} style={styles.filterGridScrollView}>
+                    <View style={styles.filterGridScrollView}>
                         {ingredients.map((ingredient, index) => <RectangleBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
                     </View>
                     :
-                    <View ref={refIngredientScrollView} style={styles.filterGridScrollView}>
+                    <View style={styles.filterGridScrollView}>
                         {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(textSearch.toLowerCase())).map((ingredient, index) => <RectangleBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
                     </View>
             :
@@ -185,11 +197,11 @@ const Home = ({navigation}) => {
                 !glasses || GlassIsLoading ?
                 <ActivityIndicator /> :
                 textSearch == "" ?
-                    <View ref={refGlassScrollView} style={styles.filterGridScrollView}>
+                    <View style={styles.filterGridScrollView}>
                         {glasses.map((glass, index) => <RectangleBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
                     </View>
                     :
-                    <View ref={refGlassScrollView} style={styles.filterGridScrollView}>
+                    <View style={styles.filterGridScrollView}>
                         {glasses.filter((glass) => glass.strGlass.toLowerCase().includes(textSearch.toLowerCase())).map((glass, index) => <RectangleBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
                     </View>
             }
@@ -205,11 +217,18 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#30343F',
         margin: 5,
+        marginBottom: 10
     },
     randomCocktails: {
         flexDirection: 'row',
         flexWrap:'wrap',
-        // marginBottom: 15,
+    },
+    separationBar:{
+        borderColor: '#30343F', 
+        borderWidth: 1, 
+        borderRadius: 45, 
+        margin: 5, 
+        marginVertical: 35
     },
     filters:{
         flexDirection: 'row',
@@ -234,7 +253,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 0,
         paddingBottom:2,
-        margin: 5
+        margin: 5,
+        marginVertical: 15
     },
     searchBarLeftIcon:{
         backgroundColor: '#FAFAFF',

@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
     },
     cocktail_icon: {
         flex: 1,
-        justifyContent: 'space-between',
+        justifyContent: 'space-between',        
     },
     cocktail_name: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     list_view: {
         flexDirection: 'row',

@@ -71,9 +71,11 @@ export const clearStorage = async () => {
 };
 
 export const updateIsFavoriteValue = async (drinks) => {
-    let favCocktails = await getAllCocktails();
-    for (let i = 0; i < drinks.length; i++){
-        drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
+    if(drinks){
+        let favCocktails = await getAllCocktails();
+        for (let i = 0; i < drinks.length; i++){
+            drinks[i].isFavorite = favCocktails.map(fav=>fav.idDrink).includes(drinks[i].idDrink);
+        }
     }
     return drinks;
 }

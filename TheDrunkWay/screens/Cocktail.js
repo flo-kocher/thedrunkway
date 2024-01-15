@@ -196,5 +196,6 @@ const styles = StyleSheet.create({
     },
     row_4: {
         flex: 1,
+        margin: 5
     }
 })
