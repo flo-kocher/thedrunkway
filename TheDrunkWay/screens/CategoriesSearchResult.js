@@ -6,12 +6,13 @@ import {
     TouchableOpacity,
     ActivityIndicator
 } from "react-native";
-import React, {useState} from "react";
+import React, {useState, useLayoutEffect} from "react";
 import checkStatus from "../utils/checkStatus";
 import { useQuery } from 'react-query';
 import CocktailListItem from '../components/CocktailListItem';
 import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
 import { Ionicons } from "@expo/vector-icons";
+import SwitchDisplayModeBtn from "../components/SwitchDisplayModeBtn";
 
 const CategoriesSearchResult = ({navigation, route}) => {
 
@@ -19,6 +20,15 @@ const CategoriesSearchResult = ({navigation, route}) => {
     const { isLoading, data: cocktails } = useQuery(['cocktailsCategories', {searchtype: route.params.searchType, searchValue: route.params.searchValue}],
                                             () => getCocktails(route.params.searchType, route.params.searchValue));
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+            <SwitchDisplayModeBtn updateViewMode={updateViewMode} viewMode={viewMode}/>
+            ),
+            headerRightContainerStyle: {marginRight: 10 },
+        });
+    }, [viewMode]);
+                                        
     const updateViewMode = () => {
         if(viewMode === 'grid') {
             setViewMode('list');
@@ -45,16 +55,6 @@ const CategoriesSearchResult = ({navigation, route}) => {
 
     return <>
         <View style={styles.view}>
-            <TouchableOpacity style={styles.switchButton} onPress={() => updateViewMode()}>
-                {viewMode === 'grid' ?
-                    <Ionicons name={'list'}
-                                size={30}
-                    /> :
-                    <Ionicons name={'grid'}
-                                size={30}
-                    />
-                }
-            </TouchableOpacity>
             {isLoading ?                 
                 <ActivityIndicator /> 
                 :

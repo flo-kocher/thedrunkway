@@ -1,3 +1,4 @@
+import React, {useState} from "react";
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -94,7 +95,7 @@ function Root() {
             })}
         >
             <Tab.Screen name={t('home')} component={Home} />
-            <Tab.Screen name={t('search')} component={Search} />
+            <Tab.Screen name={t('search')} component={Search}/>
             <Tab.Screen name={t('favorites')} component={Favorites} options={{headerTitle: t('favorite_cocktails')}}/>
             <Tab.Screen name={t('settings')} component={Settings} />
         </Tab.Navigator>

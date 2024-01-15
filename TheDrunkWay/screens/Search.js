@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ActivityIndicator
 } from "react-native";
-import React, {useState} from "react";
+import React, {useState, useLayoutEffect} from "react";
 import checkStatus from "../utils/checkStatus";
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { SearchBar } from '@rneui/themed';
@@ -16,14 +16,15 @@ import { Ionicons } from "@expo/vector-icons";
 import LetterBtn from "../components/LetterBtn";
 import {useTranslation} from "react-i18next";
 import { useFocusEffect } from '@react-navigation/native';
+import SwitchDisplayModeBtn from "../components/SwitchDisplayModeBtn";
 
-const Search = ({navigation}) => {
+const Search = ({navigation, route}) => {
     const {t} = useTranslation();
-
+    const [viewMode, setViewMode] = useState("grid");
     const queryClient = useQueryClient();
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     const [cocktailName, setCocktailName] = useState("");
-    const [viewMode, setViewMode] = useState("grid");
+    // const [viewMode, setViewMode] = useState("grid");
     const [searchType, setSearchType] = useState("");
     const [searchValue, setSearchValue] = useState("");
     const { isLoading, data: cocktails } = useQuery(['cocktails', {searchType, searchValue}], () => getCocktails(searchType, searchValue));
@@ -31,6 +32,15 @@ const Search = ({navigation}) => {
     const updateCocktailName = (name) => {
         setCocktailName(name);
     };
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+          headerRight: () => (
+            <SwitchDisplayModeBtn updateViewMode={updateViewMode} viewMode={viewMode}/>
+          ),
+          headerRightContainerStyle: {marginRight: 10 },
+        });
+    }, [viewMode]);
 
     const updateViewMode = () => {
         if(viewMode === 'grid') {
@@ -115,19 +125,9 @@ const Search = ({navigation}) => {
                 :
                 cocktails == null ?
                     <Text style={{textAlign: 'center'}}>{t('searchbar_search_letter')}</Text> :
-                    <>
-                        <View style={{alignItems: 'flex-end'}}>
-                            <TouchableOpacity onPress={() => updateViewMode()}>
-                                {viewMode === 'grid' ?
-                                    <Ionicons name={'list'} color={'#30343F'} size={30} /> :
-                                    <Ionicons name={'grid'} color={'#30343F'} size={30} />
-                                }
-                            </TouchableOpacity>
-                        </View>
-                        <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
-                            {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
-                        </ScrollView>
-                    </>
+                    <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
+                        {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"Search"}/>)}
+                    </ScrollView>
             }
         </View>
     </>;
