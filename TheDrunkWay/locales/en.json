@@ -16,5 +16,9 @@
   "ingredients": "Ingredients",
   "instructions": "Instructions",
   "change_language": "Change language",
-  "favorite_cocktails": "My favorite cocktails"
+  "favorite_cocktails": "My favorite cocktails",
+  "category": "Category",
+  "alcoholic_type": "Alcoholic type",
+  "glass": "Glass",
+  "strInstructions": "strInstructions"
 }

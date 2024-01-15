@@ -1,4 +1,4 @@
-import {Alert, Share} from "react-native";
+import {Alert, Share, StyleSheet} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import React from "react";
 
@@ -9,11 +9,8 @@ const ShareLink = ({idDrink}) => {
         try {
             const result = await Share.share({
                 message:
-                    'Viens télécharge notre application ! TheDrunkWay sur le PlayStore ;). \n' +
+                    'Viens télécharger l\'application TheDrunkWay sur le PlayStore ! \n' +
                     'https://www.thecocktaildb.com/drink/'+idDrink,
-                // je crois pas utile le 'title', supposer être pour Android mais je le vois affiché nul part
-                title:
-                    'TheDrunkWay staff vous incite à ne pas consommer',
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -35,8 +32,17 @@ const ShareLink = ({idDrink}) => {
         <MaterialIcons name={'share'}
                        size={30}
                        onPress={onShare}
+                       color={'white'}
+                       style={styles.shareIcon}
         />
     );
 };
 
 export default ShareLink;
+
+const styles = StyleSheet.create({
+    shareIcon: {
+        marginEnd: 10,
+        marginTop: 10
+    }
+});

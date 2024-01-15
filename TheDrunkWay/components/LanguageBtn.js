@@ -1,12 +1,16 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import CountryFlag from "react-native-country-flag";
 
 
-export default function RectangleBtn({searchBy, handleClick}) {
+export default function LanguageBtn({lgName, handleClick, isoCode}) {
+    if (isoCode === 'en')
+        isoCode = 'us'
 
     return (
         <TouchableOpacity style={styles.btn} onPress={handleClick}>
-            <Text style={styles.text}>{searchBy}</Text>
+            <CountryFlag isoCode={isoCode} size={25} />
+            <Text style={styles.text}>{lgName}</Text>
         </TouchableOpacity>
     );
 }
@@ -14,11 +18,11 @@ export default function RectangleBtn({searchBy, handleClick}) {
 const styles = StyleSheet.create({
     text: {
         color: '#fafaff',
-        fontSize: 14,
+        fontSize: 15,
         textAlign: 'center',
     },
     btn: {
-        width: 100,
+        width: 250,
         height: 60,
         margin: 10,
         padding: 1,

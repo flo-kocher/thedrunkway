@@ -3,8 +3,7 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    ActivityIndicator,
-    Dimensions
+    ActivityIndicator, RefreshControl,
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState, useRef } from "react";
@@ -14,42 +13,7 @@ import RectangleBtn from "../components/RectangleBtn";
 import FilterBtn from "../components/FilterBtn";
 import { useQuery } from 'react-query';
 import { SearchBar } from '@rneui/themed';
-
-const windowDimensions = Dimensions.get('window');
 import {useTranslation} from "react-i18next";
-
-// const getRandomCocktails = () => {
-//     return fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
-//         .then(checkStatus)
-//         .then(response => response.json())
-//         .then(data => {
-//             // console.log(data);
-//             return data.drinks;
-//         })
-//         .catch(error => {
-//             console.log(error.message);
-//         });
-// }
-
-// const genFullData = async (labels, callback) => {
-//     let promises = labels.map(async (year) => {
-//             let result = await getRandomCocktails();
-//             return result;
-//         }),
-//         dataResults = await Promise.all(promises);
-
-//     let fullData = {
-//         labels,
-//         datasets: [
-//             {
-//                 label: "25th percentile",
-//                 data: dataResults
-//             },
-//         ],
-//     };
-
-//     callback(fullData);
-// }
 
 const Home = ({navigation}) => {
     const {t} = useTranslation();
@@ -57,6 +21,7 @@ const Home = ({navigation}) => {
     const [textSearch, setTextSearch] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("c");
     const [isLoading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = React.useState(false);
     const [randomCocktails, setRandomCocktails] = useState([]);
     const { GlassIsLoading, data: glasses } = useQuery('glasses', () => getGlasses());
     const { CategoryIsLoading, data: categories } = useQuery('categories', () => getCategories());
@@ -79,6 +44,7 @@ const Home = ({navigation}) => {
         } catch (error) {
             console.error(error);
         } finally {
+            setRefreshing(false)
             setLoading(false);
         }
     };
@@ -147,12 +113,20 @@ const Home = ({navigation}) => {
         setSelectedFilter(filter);
     }
 
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getRandomCocktails(6)
+    }, []);
+
     useEffect(() => {
         getRandomCocktails(6);
     }, []);
 
     return (
-        <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, backgroundColor: '#FAFAFF', width: '100%'}}>
+        <ScrollView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, backgroundColor: '#FAFAFF', width: '100%'}}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        >
             <Text style={styles.title}>{t('random_cocktails')}</Text>
             {!randomCocktails || isLoading ? (
                 <ActivityIndicator />
@@ -180,9 +154,9 @@ const Home = ({navigation}) => {
                 leftIconContainerStyle={styles.searchBarLeftIcon}
                 rightIconContainerStyle={styles.searchBarRightIcon}
             />
-            {selectedFilter == "a" ? 
-            
-                !alcoholic || AlcoholicIsLoading ? 
+            {selectedFilter == "a" ?
+
+                !alcoholic || AlcoholicIsLoading ?
                 <ActivityIndicator /> :
                 textSearch == "" ?
                     <View style={styles.filterGridScrollView}>
@@ -194,8 +168,8 @@ const Home = ({navigation}) => {
                     </View>
             
             : selectedFilter == "c" ?
-            
-                !categories || CategoryIsLoading ? 
+
+                !categories || CategoryIsLoading ?
                 <ActivityIndicator /> :
                 textSearch == "" ?
                     <View style={styles.filterGridScrollView}>
@@ -218,9 +192,9 @@ const Home = ({navigation}) => {
                     <View style={styles.filterGridScrollView}>
                         {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(textSearch.toLowerCase())).map((ingredient, index) => <RectangleBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
                     </View>
-            : 
-            
-                !glasses || GlassIsLoading ? 
+            :
+
+                !glasses || GlassIsLoading ?
                 <ActivityIndicator /> :
                 textSearch == "" ?
                     <View style={styles.filterGridScrollView}>
@@ -275,7 +249,7 @@ const styles = StyleSheet.create({
     searchBarContainer:{
         backgroundColor: '#30343F',
         borderWidth: 0,
-        borderColor: '#FAFAFF',    
+        borderColor: '#FAFAFF',
         borderRadius: 12,
         padding: 0,
         paddingBottom:2,

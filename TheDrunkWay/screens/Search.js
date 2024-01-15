@@ -73,7 +73,6 @@ const Search = ({navigation, route}) => {
 
     const updateCocktailList = useMutation(() => updateIsFavoriteValue(cocktails), {
         onSuccess: updatedList => {
-            console.log(searchType, searchValue)
             queryClient.setQueryData(
                 ['cocktails', {searchType: searchType, searchValue: searchValue}],
                 updatedList
@@ -84,9 +83,10 @@ const Search = ({navigation, route}) => {
     useFocusEffect(
         React.useCallback(() => {
             console.log('enter focus effect');
-            if(cocktails){
+            // if(cocktails){
+                // console.log('enter if')
                 updateCocktailList.mutate();
-            }
+            // }
 
             return () => {};
         }, [])

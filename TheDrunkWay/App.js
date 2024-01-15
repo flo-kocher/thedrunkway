@@ -6,13 +6,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Favorites from './screens/Favorites';
+import Settings from './screens/Settings';
 import Cocktail from "./screens/Cocktail";
 import Search from "./screens/Search";
 import CategoriesSearchResult from "./screens/CategoriesSearchResult";
 import {useTranslation} from "react-i18next";
-import {languageResources} from "./i18n";
-import languagesList from "./services/languagesList.json"
-import i18next from "i18next";
 import Home from "./screens/Home";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -32,28 +30,6 @@ const img_example = {
     width: 64,
     height: 64,
 };
-
-function Settings() {
-    const {t} = useTranslation();
-
-    const changeLng = lng => {
-        i18next.changeLanguage(lng);
-    }
-
-    return (
-        <View style={{flex: 1}}>
-            <Text style={{paddingBottom: 10}}>{t('change_language')}</Text>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <FlatList data={Object.keys(languageResources)} renderItem={({item}) => (
-                    <TouchableOpacity
-                        onPress={() => changeLng(item)}>
-                        <Text>{languagesList[item].nativeName}</Text>
-                    </TouchableOpacity>
-                )}/>
-            </View>
-        </View>
-    );
-}
 
 function Root() {
     const {t} = useTranslation();
@@ -117,10 +93,3 @@ export default function App() {
         </QueryClientProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    row: {
-        flex: 1,
-        justifyContent: 'space-around'
-    },
-});
