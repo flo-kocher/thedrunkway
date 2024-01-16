@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cd28fba-8b20-4e35-b359-1696ec6e2dd5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../TODO.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locales/de.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/de.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locales/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/fr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locales/it.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/it.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/asyncStorageCalls.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/asyncStorageCalls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TheDrunkWayStoreFile.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../TheDrunkWayStoreFile.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +32,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "add-disclaimer",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/home/flo/pm/projet/thedrunkway/TheDrunkWay/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -145,7 +135,7 @@
       <workItem from="1705265369495" duration="4215000" />
       <workItem from="1705317284304" duration="14346000" />
       <workItem from="1705332361492" duration="2063000" />
-      <workItem from="1705429003960" duration="5365000" />
+      <workItem from="1705429003960" duration="6977000" />
     </task>
     <servers />
   </component>
