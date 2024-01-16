@@ -21,5 +21,7 @@
   "alcoholic_type": "Alcoholic type",
   "glass": "Glass",
   "strInstructions": "strInstructions",
-  "no_results": "No results"
+  "no_results": "No results",
+  "alcohol_disclaimer": "Alcohol abuse is dangerous for your health, and we don't ask you to drink!",
+  "accept_disclaimer": "I understand"
 }

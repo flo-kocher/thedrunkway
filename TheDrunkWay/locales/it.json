@@ -18,5 +18,7 @@
   "change_language":  "Cambia lingua",
   "favorite_cocktails": "I miei cocktail preferiti",
   "strInstructions": "strInstructionsIT",
-  "no_results": "Nessun risultato"
+  "no_results": "Nessun risultato",
+  "alcohol_disclaimer": "L'abuso di alcol è pericoloso per la salute, quindi non bevetelo!",
+  "accept_disclaimer": "Capisco"
 }

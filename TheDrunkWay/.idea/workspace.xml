@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7cd28fba-8b20-4e35-b359-1696ec6e2dd5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../TODO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locales/de.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/de.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locales/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/fr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locales/it.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/it.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/asyncStorageCalls.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/asyncStorageCalls.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TheDrunkWayStoreFile.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../TheDrunkWayStoreFile.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +25,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2YAZbOuCzsGwRZed7zwlAL43h3x" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,18 +42,50 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/flo/pm/projet/thedrunkway/TheDrunkWay",
+    "git-widget-placeholder": "add-disclaimer",
+    "last_opened_file_path": "/home/flo/pm/projet/thedrunkway/TheDrunkWay/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "/home/flo/Logiciels/idea-IU-232.9559.62/plugins/javascript-impl/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/components" />
+      <recent name="$PROJECT_DIR$/screens" />
+      <recent name="$PROJECT_DIR$/locales" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/translations" />
+    </key>
+  </component>
+  <component name="RunManager" selected="React Native.Android">
+    <configuration name="Android" type="ReactNative" factoryName="React Native">
+      <node-interpreter value="project" />
+      <react-native value="/usr/local/lib/node_modules/react-native-cli" />
+      <platform value="ANDROID" />
+      <envs />
+      <only-packager />
+      <browser value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <debug-port value="19006" />
+      <method v="2">
+        <option name="NpmBeforeRunTask" enabled="true">
+          <package-json value="$PROJECT_DIR$/package.json" />
+          <command value="run" />
+          <scripts>
+            <script value="android" />
+          </scripts>
+          <arguments value="--reset-cache" />
+          <node-interpreter value="project" />
+          <envs />
+        </option>
+      </method>
+    </configuration>
     <configuration name="Web" type="ReactNative" factoryName="React Native">
       <node-interpreter value="project" />
       <react-native value="/usr/local/lib/node_modules/react-native-cli" />
@@ -58,6 +106,10 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="React Native.Web" />
+      <item itemvalue="React Native.Android" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -68,6 +120,32 @@
       <option name="presentableId" value="Default" />
       <updated>1699970414314</updated>
       <workItem from="1699970415401" duration="318000" />
+      <workItem from="1699971142923" duration="1241000" />
+      <workItem from="1700038714072" duration="8352000" />
+      <workItem from="1700120141643" duration="238000" />
+      <workItem from="1700139261809" duration="8875000" />
+      <workItem from="1700223756432" duration="1920000" />
+      <workItem from="1700913351213" duration="9127000" />
+      <workItem from="1700993806395" duration="4898000" />
+      <workItem from="1701112371098" duration="2916000" />
+      <workItem from="1701199672043" duration="3892000" />
+      <workItem from="1701519533813" duration="5875000" />
+      <workItem from="1701888856228" duration="6606000" />
+      <workItem from="1702122635576" duration="8269000" />
+      <workItem from="1702297814908" duration="6035000" />
+      <workItem from="1702404428221" duration="768000" />
+      <workItem from="1702452830490" duration="31000" />
+      <workItem from="1704708189399" duration="4692000" />
+      <workItem from="1704717274022" duration="9524000" />
+      <workItem from="1704793418117" duration="4250000" />
+      <workItem from="1704803301801" duration="8979000" />
+      <workItem from="1704878541989" duration="6211000" />
+      <workItem from="1704965594257" duration="7995000" />
+      <workItem from="1705239620223" duration="8015000" />
+      <workItem from="1705265369495" duration="4215000" />
+      <workItem from="1705317284304" duration="14346000" />
+      <workItem from="1705332361492" duration="2063000" />
+      <workItem from="1705429003960" duration="5365000" />
     </task>
     <servers />
   </component>

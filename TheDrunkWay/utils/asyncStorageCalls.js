@@ -1,6 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const getAllKeys = async () => {
+export const checkFirstLaunch = async () => {
+    try {
+        let firstLaunch = await AsyncStorage.getItem('notFirstLaunch')
+        if (firstLaunch == null) {
+            await AsyncStorage.setItem('notFirstLaunch', 'true')
+            return true;
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return false;
+}
+
+export const getAllKeys = async () => {
     let keys = []
     try {
         keys = await AsyncStorage.getAllKeys()
@@ -9,7 +22,7 @@ const getAllKeys = async () => {
     }
     // On ne prend pas l'élément 'EXPO_CONSTANTS_INSTALLATION_ID' du Storage
     // qui s'introduit quand on refresh la page par exemple
-    return keys.filter(function(l) { return l !== 'EXPO_CONSTANTS_INSTALLATION_ID' });
+    return keys.filter(function(l) { return l !== 'EXPO_CONSTANTS_INSTALLATION_ID' && l !== 'notFirstLaunch' });
 }
 
 export const storeCocktail = async (cocktail) => {

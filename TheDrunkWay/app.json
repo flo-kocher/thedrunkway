@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.naejirah.TheDrunkWay"
+      "package": "com.fkocher.TheDrunkWay"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "9144fa15-714a-4ab5-acda-a8330b953793"
+        "projectId": "37e5e0d0-815e-48dd-9682-6212d1b1c69a"
       }
     }
   }
