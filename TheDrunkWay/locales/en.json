@@ -20,5 +20,6 @@
   "category": "Category",
   "alcoholic_type": "Alcoholic type",
   "glass": "Glass",
-  "strInstructions": "strInstructions"
+  "strInstructions": "strInstructions",
+  "no_results": "No results"
 }

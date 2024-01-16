@@ -1,7 +1,6 @@
-import {MaterialIcons} from "@expo/vector-icons";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {updateFavoriteCocktail} from "../utils/asyncStorageCalls";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet} from "react-native";
 import {IconButton} from "react-native-paper";
 
 export default function FavoriteState(props) {
@@ -13,14 +12,6 @@ export default function FavoriteState(props) {
         cocktail.isFavorite = !cocktail.isFavorite;
         setIsLoading(!isLoading);
     }
-
-    // function setIconName() {
-    //     if (cocktail.isFavorite) {
-    //         return 'favorite'
-    //     } else {
-    //         return 'favorite-outline'
-    //     }
-    // }
 
     function setIconNameHeart() {
         if (cocktail.isFavorite) {

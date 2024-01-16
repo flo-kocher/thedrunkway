@@ -1,10 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, ImageBackground, Text, TouchableOpacity, Dimensions, Image} from 'react-native';
 import FavoriteState from "./FavoriteState";
-import {MaterialIcons} from "@expo/vector-icons";
 
 const windowDimensions = Dimensions.get('window');
-// const screenDimensions = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
     container: {

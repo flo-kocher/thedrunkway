@@ -10,6 +10,5 @@ export const getIngredientList = (cocktail) => {
             break;
         }
     }
-    // console.log(ingredients)
     return ingredients
 }

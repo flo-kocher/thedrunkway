@@ -3,7 +3,6 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    TouchableOpacity,
     ActivityIndicator
 } from "react-native";
 import React, {useState, useLayoutEffect} from "react";
@@ -11,10 +10,11 @@ import checkStatus from "../utils/checkStatus";
 import { useQuery } from 'react-query';
 import CocktailListItem from '../components/CocktailListItem';
 import { updateIsFavoriteValue } from "../utils/asyncStorageCalls";
-import { Ionicons } from "@expo/vector-icons";
 import SwitchDisplayModeBtn from "../components/SwitchDisplayModeBtn";
+import {useTranslation} from "react-i18next";
 
 const CategoriesSearchResult = ({navigation, route}) => {
+    const {t} = useTranslation();
 
     const [viewMode, setViewMode] = useState("grid");
     const { isLoading, data: cocktails } = useQuery(['cocktailsCategories', {searchtype: route.params.searchType, searchValue: route.params.searchValue}],
@@ -59,7 +59,7 @@ const CategoriesSearchResult = ({navigation, route}) => {
                 <ActivityIndicator /> 
                 :
                 cocktails == null ?
-                    <Text>No results</Text> :
+                    <Text>{t('no_results')}</Text> :
                     <ScrollView contentContainerStyle={viewMode == "grid" ? styles.resultGridScrollView : styles.resultListScrollView}>
                         {cocktails.map((cocktail, index) => <CocktailListItem key={"_" + String(index)} navigation={navigation} cocktail={cocktail} mode={viewMode} previousScreen={"CategoriesSearchResult"}/>)}
                     </ScrollView>

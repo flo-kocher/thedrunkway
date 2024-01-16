@@ -3,8 +3,6 @@ import {MaterialIcons} from "@expo/vector-icons";
 import React from "react";
 
 const ShareLink = ({idDrink}) => {
-    // console.log(idDrink);
-
     const onShare = async () => {
         try {
             const result = await Share.share({

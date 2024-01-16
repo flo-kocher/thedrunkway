@@ -5,7 +5,7 @@ import {
     Text,
     ImageBackground,
     ScrollView,
-    ActivityIndicator, FlatList
+    ActivityIndicator
 } from 'react-native';
 import CocktailIngredientListItem from "../components/CocktailIngredientListItem";
 import CocktailInstructionItem from "../components/CocktailInstructionItem";
@@ -17,7 +17,7 @@ import { useQuery } from 'react-query';
 import checkStatus from "../utils/checkStatus";
 import {useTranslation} from "react-i18next";
 
-const Cocktail = ({navigation, route}) => {
+const Cocktail = ({route}) => {
     const {t} = useTranslation();
 
     const cocktailInfo = route.params.cocktail;
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     },
     row_2: {
         flex: 4,
-        // alignItems: 'flex-end',
     },
     ingredient_list: {
         marginTop: 10,

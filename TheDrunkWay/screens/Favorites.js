@@ -3,13 +3,11 @@ import {
     View,
     ActivityIndicator, 
     ScrollView, 
-    TouchableOpacity,
 } from "react-native";
 import React, {useState, useLayoutEffect} from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import {getAllCocktails} from "../utils/asyncStorageCalls";
 import CocktailListItem from "../components/CocktailListItem";
-import {Ionicons} from "@expo/vector-icons";
 import SwitchDisplayModeBtn from "../components/SwitchDisplayModeBtn";
 
 function SetupFavorites({ navigation }) {
@@ -55,11 +53,6 @@ function SetupFavorites({ navigation }) {
     return (
         <View style={styles.view}>
             <ScrollView>
-                {/* Utiliser ces boutons pour clear/print les cocktails en favoris */}
-                {/*<View style={styles.researchView}>*/}
-                {/*    <Button title={'Clear storage'} onPress={() => clearStorage()}/>*/}
-                {/*    <Button title={'Print all cocktails'} onPress={() => getAllCocktails()}/>*/}
-                {/*</View>*/}
                 {!cocktailsData ? (
                     <ActivityIndicator />
                 ) : (

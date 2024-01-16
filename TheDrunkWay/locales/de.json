@@ -17,5 +17,6 @@
   "instructions": "Anleitungen",
   "change_language": "Sprache ändern",
   "favorite_cocktails": "Meine Lieblingscocktails",
-  "strInstructions": "strInstructionsDE"
+  "strInstructions": "strInstructionsDE",
+  "no_results": "Keine Ergebnisse"
 }

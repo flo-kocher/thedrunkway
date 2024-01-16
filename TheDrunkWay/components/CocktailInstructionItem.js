@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, ImageBackground, Text, Button} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 export default function CocktailInstructionItem({index, data}) {
 

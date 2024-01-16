@@ -32,7 +32,6 @@ export const getCocktail = async (drinkId) => {
     try {
         const savedCocktail = await AsyncStorage.getItem(drinkId);
         const currentCocktail = JSON.parse(savedCocktail);
-        // console.log(currentCocktail);
         return currentCocktail;
     } catch (error) {
         console.log(error);
@@ -55,7 +54,6 @@ export const getAllCocktails = async () => {
             const val = await AsyncStorage.getItem(key);
             result.push(JSON.parse(val));
         }
-        // console.log(result)
         return result;
     } catch (error) {
         console.log(error);

@@ -9,8 +9,6 @@ import {useTranslation} from "react-i18next";
 import i18next from "i18next";
 import {languageResources} from "../i18n";
 import languagesList from "../services/languagesList.json";
-import RectangleBtn from "../components/RectangleBtn";
-import CountryFlag from "react-native-country-flag";
 import LanguageBtn from "../components/LanguageBtn";
 
 function Settings() {

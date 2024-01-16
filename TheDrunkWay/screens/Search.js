@@ -18,13 +18,12 @@ import {useTranslation} from "react-i18next";
 import { useFocusEffect } from '@react-navigation/native';
 import SwitchDisplayModeBtn from "../components/SwitchDisplayModeBtn";
 
-const Search = ({navigation, route}) => {
+const Search = ({navigation}) => {
     const {t} = useTranslation();
     const [viewMode, setViewMode] = useState("grid");
     const queryClient = useQueryClient();
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     const [cocktailName, setCocktailName] = useState("");
-    // const [viewMode, setViewMode] = useState("grid");
     const [searchType, setSearchType] = useState("");
     const [searchValue, setSearchValue] = useState("");
     const { isLoading, data: cocktails } = useQuery(['cocktails', {searchType, searchValue}], () => getCocktails(searchType, searchValue));
@@ -82,11 +81,7 @@ const Search = ({navigation, route}) => {
 
     useFocusEffect(
         React.useCallback(() => {
-            console.log('enter focus effect');
-            // if(cocktails){
-                // console.log('enter if')
-                updateCocktailList.mutate();
-            // }
+            updateCocktailList.mutate();
 
             return () => {};
         }, [])
