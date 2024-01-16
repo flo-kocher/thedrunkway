@@ -14,10 +14,13 @@ import FilterCategoriesBtn from "../components/FilterCategoriesBtn";
 import { useQuery } from 'react-query';
 import { SearchBar } from '@rneui/themed';
 import {useTranslation} from "react-i18next";
+import AlcoholDisclaimerAlert from "../components/AlcoholDisclaimerAlert";
+import {checkFirstLaunch} from "../utils/asyncStorageCalls";
 
 const Home = ({navigation}) => {
     const {t} = useTranslation();
 
+    const [isFirstLaunch, setIsFirstLaunch] = useState(false);
     const [textSearch, setTextSearch] = useState("");
     const [selectedFilter, setSelectedFilter] = useState("c");
     const [isLoading, setLoading] = useState(true);
@@ -120,6 +123,9 @@ const Home = ({navigation}) => {
 
     useEffect(() => {
         getRandomCocktails(6);
+        checkFirstLaunch().then((result) => {
+            setIsFirstLaunch(result);
+        });
     }, []);
 
     return (
@@ -127,6 +133,7 @@ const Home = ({navigation}) => {
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
         >
+            {isFirstLaunch ? <AlcoholDisclaimerAlert/> : null}
             <Text style={styles.title}>{t('random_cocktails')}</Text>
             {!randomCocktails || isLoading ? (
                 <ActivityIndicator />
@@ -157,53 +164,53 @@ const Home = ({navigation}) => {
             {selectedFilter == "a" ?
 
                 !alcoholic || AlcoholicIsLoading ?
-                <ActivityIndicator /> :
-                textSearch == "" ?
-                    <View style={styles.filterGridScrollView}>
-                        {alcoholic.map((alcohol, index) => <FilterBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
-                    </View>
-                    :
-                    <View style={styles.filterGridScrollView}>
-                        {alcoholic.filter((alcohol) => alcohol.strAlcoholic.toLowerCase().includes(textSearch.toLowerCase())).map((alcohol, index) => <FilterBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("i", alcohol.strAlcoholic)}/>)}
-                    </View>
-            
-            : selectedFilter == "c" ?
+                    <ActivityIndicator /> :
+                    textSearch == "" ?
+                        <View style={styles.filterGridScrollView}>
+                            {alcoholic.map((alcohol, index) => <FilterBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("a", alcohol.strAlcoholic)}/>)}
+                        </View>
+                        :
+                        <View style={styles.filterGridScrollView}>
+                            {alcoholic.filter((alcohol) => alcohol.strAlcoholic.toLowerCase().includes(textSearch.toLowerCase())).map((alcohol, index) => <FilterBtn key={index} searchBy={alcohol.strAlcoholic} handleClick={() => handleClick("i", alcohol.strAlcoholic)}/>)}
+                        </View>
 
-                !categories || CategoryIsLoading ?
-                <ActivityIndicator /> :
-                textSearch == "" ?
-                    <View style={styles.filterGridScrollView}>
-                        {categories.map((category, index) => <FilterBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
-                    </View>
-                    :
-                    <View style={styles.filterGridScrollView}>
-                        {categories.filter((category) => category.strCategory.toLowerCase().includes(textSearch.toLowerCase())).map((category, index) => <FilterBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("i", category.strCategory)}/>)}
-                    </View>
-            
-            : selectedFilter == "i" ? 
-            
-                !ingredients || IngredientIsLoading ? 
-                <ActivityIndicator /> :
-                textSearch == "" ?
-                    <View style={styles.filterGridScrollView}>
-                        {ingredients.map((ingredient, index) => <FilterBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
-                    </View>
-                    :
-                    <View style={styles.filterGridScrollView}>
-                        {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(textSearch.toLowerCase())).map((ingredient, index) => <FilterBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
-                    </View>
-            :
+                : selectedFilter == "c" ?
 
-                !glasses || GlassIsLoading ?
-                <ActivityIndicator /> :
-                textSearch == "" ?
-                    <View style={styles.filterGridScrollView}>
-                        {glasses.map((glass, index) => <FilterBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
-                    </View>
-                    :
-                    <View style={styles.filterGridScrollView}>
-                        {glasses.filter((glass) => glass.strGlass.toLowerCase().includes(textSearch.toLowerCase())).map((glass, index) => <FilterBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
-                    </View>
+                    !categories || CategoryIsLoading ?
+                        <ActivityIndicator /> :
+                        textSearch == "" ?
+                            <View style={styles.filterGridScrollView}>
+                                {categories.map((category, index) => <FilterBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("c", category.strCategory)}/>)}
+                            </View>
+                            :
+                            <View style={styles.filterGridScrollView}>
+                                {categories.filter((category) => category.strCategory.toLowerCase().includes(textSearch.toLowerCase())).map((category, index) => <FilterBtn key={index} searchBy={category.strCategory} handleClick={() => handleClick("i", category.strCategory)}/>)}
+                            </View>
+
+                    : selectedFilter == "i" ?
+
+                        !ingredients || IngredientIsLoading ?
+                            <ActivityIndicator /> :
+                            textSearch == "" ?
+                                <View style={styles.filterGridScrollView}>
+                                    {ingredients.map((ingredient, index) => <FilterBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
+                                </View>
+                                :
+                                <View style={styles.filterGridScrollView}>
+                                    {ingredients.filter((ingredient) => ingredient.strIngredient1.toLowerCase().includes(textSearch.toLowerCase())).map((ingredient, index) => <FilterBtn key={index} searchBy={ingredient.strIngredient1} handleClick={() => handleClick("i", ingredient.strIngredient1)}/>)}
+                                </View>
+                        :
+
+                        !glasses || GlassIsLoading ?
+                            <ActivityIndicator /> :
+                            textSearch == "" ?
+                                <View style={styles.filterGridScrollView}>
+                                    {glasses.map((glass, index) => <FilterBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
+                                </View>
+                                :
+                                <View style={styles.filterGridScrollView}>
+                                    {glasses.filter((glass) => glass.strGlass.toLowerCase().includes(textSearch.toLowerCase())).map((glass, index) => <FilterBtn key={index} searchBy={glass.strGlass} handleClick={() => handleClick("g", glass.strGlass)}/>)}
+                                </View>
             }
         </ScrollView>
     );
@@ -224,10 +231,10 @@ const styles = StyleSheet.create({
         flexWrap:'wrap',
     },
     separationBar:{
-        borderColor: '#30343F', 
-        borderWidth: 1, 
-        borderRadius: 45, 
-        margin: 5, 
+        borderColor: '#30343F',
+        borderWidth: 1,
+        borderRadius: 45,
+        margin: 5,
         marginVertical: 35
     },
     filters:{

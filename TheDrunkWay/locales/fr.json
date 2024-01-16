@@ -19,5 +19,7 @@
   "favorite_cocktails": "Mes cocktails favoris",
   "category": "Catégorie",
   "strInstructions": "strInstructionsFR",
-  "no_results": "Aucun résultat"
+  "no_results": "Aucun résultat",
+  "alcohol_disclaimer": "L'abus d'alcool est dangereux pour la santé, il n'est pas demandé de consommer !",
+  "accept_disclaimer": "J'ai compris"
 }

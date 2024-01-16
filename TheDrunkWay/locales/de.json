@@ -18,5 +18,7 @@
   "change_language": "Sprache ändern",
   "favorite_cocktails": "Meine Lieblingscocktails",
   "strInstructions": "strInstructionsDE",
-  "no_results": "Keine Ergebnisse"
+  "no_results": "Keine Ergebnisse",
+  "alcohol_disclaimer": "Der Missbrauch von Alkohol ist gesundheitsschädlich, es wird nicht um den Konsum gebeten!",
+  "accept_disclaimer": "ich habe verstanden"
 }
